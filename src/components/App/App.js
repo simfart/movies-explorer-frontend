@@ -1,8 +1,7 @@
 import React from 'react';
-import { Routes } from 'react-router-dom';
+import {Route, Routes } from 'react-router-dom';
 
 // import { useEffect, useState, useCallback } from "react";
-import './App.css';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
@@ -16,7 +15,7 @@ import ProtectedRoute from '../ProtectedRoute';
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <Header />
       <Routes>
         <Route path="/" element={<Main />} />

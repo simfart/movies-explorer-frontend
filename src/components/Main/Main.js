@@ -1,3 +1,4 @@
+import React  from 'react';
 import './Main.css';
 import Promo from './Promo/Promo';
 import NavTab from './NavTab/NavTab';
@@ -10,7 +11,7 @@ function Main() {
   return (
     <div className="App">
       <header className="App-header">
-     
+     jjjjjjjjjjjj
       </header>
     </div>
   );

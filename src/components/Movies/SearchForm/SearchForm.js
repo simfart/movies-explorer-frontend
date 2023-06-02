@@ -1,4 +1,4 @@
-
+import React from 'react';
 import './SearchForm.css';
 
 import FilterCheckbox from './FilterCheckbox/FilterCheckbox';
