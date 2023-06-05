@@ -1,71 +1,36 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import icon from '../../images/Icon.svg';
-import profile from '../../images/profile.svg';
 import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import icon from '../../images/Icon.svg';
+import burger from '../../images/burger.svg';
 
-function Header() {
+import HeaderProfile from './HeaderProfile/HeaderProfile';
+
+function Header({ loggedIn, openMenu, userEmail }) {
   return (
-    <div className="header">
-      <div  className="header__nav"  >
-      <Link to="/" > <img className="header__logo" src={icon} alt="Лого"/></Link>
-      <div>
-      <p className="header__nav__text">Фильмы</p>
-      <p className="header__nav__text">Сохранённые фильмы</p>
-      </div>
-      </div>
-      <div className="header_profile">
-      <img className="header__logo" src={profile} alt="Лого" />
-      </div>
-    </div>
+    <header className="header">
+      <Link to="/profile" > <img className="header__logo" src={icon} alt="Лого" /></Link>
+      <>
+        {loggedIn ? (
+          <div className="header_auth">
+            <div className="header__menu">
+              <nav>
+                <NavLink to="/movies" className={({ isActive }) => `header__menu__link ${isActive ? "header__menu__link_active" : ""}`}>Фильмы</NavLink>
+                <NavLink to="/saved-movies" className={({ isActive }) => `header__menu__link ${isActive ? "header__menu__link_active" : ""}`}>Сохранённые фильмы</NavLink>
+              </nav>
+              <HeaderProfile userEmail={userEmail} />
+            </div>
+            <button className="header__burger" aria-label='Меню' onClick={openMenu}><img src={burger} className="header__burger__img" alt="Меню" /></button>
+          </div>
+        ) : (
+          <nav className="header_not-auth">
+            <NavLink to="/signup" className={({ isActive }) => `header__link ${isActive ? "header__link_active" : ""}`}>Регистрация</NavLink>
+            <NavLink to="/signin" className={({ isActive }) => `header__link ${isActive ? "header__link_active" : ""}`}>Войти</NavLink>
+          </nav>
+        )}
+      </>
+    </header>
   );
 }
-
-
-// import { useState, useEffect } from 'react';
-// import headerLogo              from '../images/header__logo.svg';
-
-// function Header({ loggedIn, children }) {
-
-//   const [isBurgerMenuOpen, setBurgerMenuOpen] = useState(false);
-
-//   function toggleAccountInfo() {
-//     if (!isBurgerMenuOpen && loggedIn) {
-//       setBurgerMenuOpen(true);
-//     } else setBurgerMenuOpen(false);
-//   }
-
-//   useEffect(() => {
-//     setBurgerMenuOpen(false);
-//   }, [loggedIn]);
-
-//   return (
-//     <header className={`header ${loggedIn && 'header_logged-in'}`}>
-//       <div className="header__icons">
-//         <img className="header__logo"
-//              src={headerLogo}
-//              alt="Логотип Место" />
-//         {loggedIn &&
-//         <div className="burger">
-//           <input className="burger__switcher"
-//                  id="burgerSwitcher"
-//                  type="checkbox"
-//                  onChange={toggleAccountInfo} />
-//           <label className="burger__button"
-//                  htmlFor="burgerSwitcher">
-//             <span className="burger__line"></span>
-//           </label>
-//         </div>
-//         }
-//       </div>
-//       <div className={`header__account ${loggedIn &&
-//                       'header__account_logged-in'} ${isBurgerMenuOpen &&
-//                       'header__account_visible'}`}>
-//         {children}
-//       </div>
-//     </header>
-//   )
-// }
-
 
 export default Header;

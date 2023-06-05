@@ -1,7 +1,7 @@
 import React from 'react';
 import {Route, Routes } from 'react-router-dom';
 
-// import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
@@ -14,9 +14,21 @@ import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute';
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(true);
+  const [menuOpened, setmenuOpened] = useState(false);
+
+  const [userEmail, setUserEmail] = useState('11111@11.ru');
+
+  const openMenu = useCallback(() => {
+    setmenuOpened(!menuOpened);
+  }, [menuOpened]);
+ 
+  console.log(menuOpened, 'menuOpened')
+   console.log(loggedIn, 'loggedIn')
+
   return (
     <div className="app">
-      <Header />
+      <Header loggedIn={loggedIn} openMenu={openMenu} userEmail={userEmail}/>
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/movies" element={<Movies />} />
@@ -25,6 +37,11 @@ function App() {
         <Route path="/signin" element={<Login />} />
         <Route path="/signup" element={<Register />} />
       </Routes>
+      <Navigation
+           menuOpened ={menuOpened}
+            onClose={openMenu}
+            userEmail={userEmail}
+            />
     </div>
   );
 }
