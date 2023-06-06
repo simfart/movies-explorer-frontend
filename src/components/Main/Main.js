@@ -12,6 +12,7 @@ function Main() {
     <main className="main">
       <Promo/>
       <AboutProject/>
+      <Techs/>
 
     </main>
   );

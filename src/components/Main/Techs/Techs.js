@@ -1,24 +1,14 @@
 import React from 'react';
-import './Techs.css';
 
 function Techs() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section className="techs">
+    <h2 className="main__subtitle">Технологии</h2>
+    <div className="main__line main__line_tech "></div>
+    <h2 className='main__title main__title_tech'>7 технологий</h2>
+    <p className='techs__text'>На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</p>
+    </section>
+  
   );
 }
 
