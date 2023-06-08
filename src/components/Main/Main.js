@@ -13,6 +13,7 @@ function Main() {
       <Promo/>
       <AboutProject/>
       <Techs/>
+      <AboutMe/>
 
     </main>
   );
