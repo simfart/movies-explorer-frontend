@@ -27,14 +27,19 @@ function App() {
   useEffect(() => {
     Promise.all([moviesApi.getMovies()])
       .then(([receivedMovies]) => {
-        setMovies(receivedMovies.reverse());
-        console.log('movies', movies)
-      })
+        setMovies(receivedMovies);
+             })
       .catch((err) => {
         console.log(err);
       });
   }, []
   );
+
+  function receivMovies (){
+    console.log(movies)
+  }
+
+  receivMovies ()
 
   const openMenu = useCallback(() => {
     setmenuOpened(!menuOpened);
@@ -56,6 +61,7 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/movies" element={<Movies
           isSaved={onSaveClick}
+          movies={movies}
           // to delete
           openMenu={openMenu}
           userEmail={userEmail}

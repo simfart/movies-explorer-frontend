@@ -8,14 +8,14 @@ import MoviesCard from './MoviesCard/MoviesCard';
 import Header from '../Header/Header';
 
 
-function Movies({openMenu,userEmail,loggedIn,onCheckbox, isSaved, saveClick}) {
+function Movies({openMenu,userEmail,loggedIn,onCheckbox, isSaved, saveClick, movies}) {
   return (
     <>
     <Header loggedIn={loggedIn} openMenu={openMenu} userEmail={userEmail}/>
     <div className='movies'>
 
     <SearchForm onCheckbox={onCheckbox}/>
-    <MoviesCardList isSaved={isSaved} saveClick={saveClick}/>
+    <MoviesCardList isSaved={isSaved} saveClick={saveClick} movies={movies}/>
  
   </div>
   </>

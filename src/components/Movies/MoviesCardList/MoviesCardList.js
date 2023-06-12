@@ -2,16 +2,14 @@ import React, {useState} from 'react';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-function MoviesCardList({isSaved, saveClick}) {
+function MoviesCardList({movies, isSaved, saveClick}) {
   return (
-    <section className="cardlist">      
- <MoviesCard isSaved={isSaved} saveClick={saveClick}/>
- <MoviesCard />
- <MoviesCard />
- <MoviesCard />
- <MoviesCard />
- <MoviesCard />
- <MoviesCard />
+    <section className="cardlist">          
+          {movies.map((movie) => (
+           <MoviesCard isSaved={isSaved} saveClick={saveClick} movie={movie} 
+           key={movie.id} />
+          ))}
+ 
   </section>
   );
 }
