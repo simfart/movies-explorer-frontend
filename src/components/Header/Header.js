@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+
+import './Header.css';
 import icon from '../../images/Icon.svg';
 import burger from '../../images/burger.svg';
 
@@ -9,7 +11,7 @@ import HeaderProfile from './HeaderProfile/HeaderProfile';
 function Header({ loggedIn, openMenu, userEmail }) {
   return (
     <header className="header">
-      <Link to="/profile" > <img className="header__logo" src={icon} alt="Лого" /></Link>
+      <Link to="/" className="header__logo"> <img src={icon} alt="Лого" /></Link>
       <>
         {loggedIn ? (
           <div className="header_auth">
@@ -18,7 +20,8 @@ function Header({ loggedIn, openMenu, userEmail }) {
                 <NavLink to="/movies" className={({ isActive }) => `header__menu__link ${isActive ? "header__menu__link_active" : ""}`}>Фильмы</NavLink>
                 <NavLink to="/saved-movies" className={({ isActive }) => `header__menu__link ${isActive ? "header__menu__link_active" : ""}`}>Сохранённые фильмы</NavLink>
               </nav>
-              <HeaderProfile userEmail={userEmail} />
+              <Link to="/profile" className="header__menu__profile"><HeaderProfile userEmail={userEmail} /></Link>
+              
             </div>
             <button className="header__burger" aria-label='Меню' onClick={openMenu}><img src={burger} className="header__burger__img" alt="Меню" /></button>
           </div>

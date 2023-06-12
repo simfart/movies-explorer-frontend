@@ -5,14 +5,20 @@ import SearchForm from './SearchForm/SearchForm';
 import Preloader from './Preloader/Preloader';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 import MoviesCard from './MoviesCard/MoviesCard';
+import Header from '../Header/Header';
 
-function Movies() {
+
+function Movies({openMenu,userEmail,loggedIn,onCheckbox, isSaved, saveClick}) {
   return (
-    <div className="App">
-      <header className="App-header">
-     
-      </header>
-    </div>
+    <>
+    <Header loggedIn={loggedIn} openMenu={openMenu} userEmail={userEmail}/>
+    <div className='movies'>
+
+    <SearchForm onCheckbox={onCheckbox}/>
+    <MoviesCardList isSaved={isSaved} saveClick={saveClick}/>
+ 
+  </div>
+  </>
   );
 }
 

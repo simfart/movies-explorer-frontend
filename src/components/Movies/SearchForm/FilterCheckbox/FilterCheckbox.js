@@ -1,23 +1,22 @@
 import React from 'react';
 import './FilterCheckbox.css';
 
-function FilterCheckbox() {
+function FilterCheckbox({onCheckbox}) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='checkbox'>
+      <>
+      <input
+        type='checkbox'
+        role='switch'
+        id='switch'
+        name='сheckbox'
+        className='checkbox__input'
+        defaultChecked={false}
+        onChange={onCheckbox}
+      />
+      <label htmlFor='switch' className='checkbox__label'/>
+      </>
+      <span className='checkbox__text'>Короткометражки</span>
     </div>
   );
 }

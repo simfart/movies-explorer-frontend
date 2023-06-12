@@ -4,11 +4,12 @@
   font-weight: 500;
   color: #ffffff;
   align-items: center;
-  padding: 18px 70px 38px;
+  padding: 18px 70px;
 }
 
 .header__logo {
   margin-right: 44px;
+  height: 38px;
 }
 
 .header_auth {
@@ -19,6 +20,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.header__menu__profile {
+  text-decoration: none;
+  color: #ffffff;
 }
 
 .header__menu__link {
@@ -88,8 +94,7 @@
   .header {
     font-size: 12px;
     line-height: 16px;
-
-    padding: 18px 30px 38px;
+    padding: 15px 30px ;
   }
 
   .header__burger {
@@ -99,6 +104,8 @@
     cursor: pointer;
     border: 0;
     padding: 0;
+    width: 44px;
+    height: 44px;
   }
 
   .header__burger :hover {
@@ -119,16 +126,16 @@
 @media screen and (max-width: 550px) {
   .header {
     font-size: 10px;
-    padding: 18px 14px 32px;
+    padding: 15px 14px 16px;
   }
 
   .header__link_active {
     margin: 0;
   }
 
-  .header__burger__img {
-    height: 40px;
+  .header__burger {
     width: 40px;
+    height: 43px;
   }
 
   .header__link {

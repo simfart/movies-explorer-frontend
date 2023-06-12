@@ -1,24 +1,31 @@
 import React from 'react';
 import './MoviesCard.css';
+import foto from '../../../images/pic__COLOR_pic.png';
 
-function MoviesCard() {
+function MoviesCard({isSaved, saveClick}) {
+
+  // const cardLikeButtonClassName
+  const cardSaveButtonClassName = ( 
+    `moviecard__save ${isSaved && 'moviecard__save_active'}` 
+  ); 
+ 
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <figure className="moviecard"> 
+    <div className='moviecard__conteiner'>
+    <img className="moviecard__photo" src={foto} alt={'Название фильма'} />
+     </div>
+    {/* {isOwn && <button className='element__trash' onClick={handleDeleteClick} />}  */}
+    <figcaption className="moviecard__description"> 
+      <p className="moviecard__title">33 слова о дизайне</p> 
+      <div className="moviecard__time">1ч 17м</div> 
+      </figcaption> 
+ 
+        {/* <button className={cardLikeButtonClassName} onClick={handleLikeClick} type="button"></button>  */}
+        <button className={cardSaveButtonClassName} onClick={saveClick} type="button">Сохранить</button>
+         
+    
+  </figure> 
   );
 }
 

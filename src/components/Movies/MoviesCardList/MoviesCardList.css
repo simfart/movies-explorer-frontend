@@ -1,0 +1,26 @@
+.cardlist{
+    padding-top: 70px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 360px);
+    grid-template-rows: repeat(auto-fill, 1fr);
+    justify-content: center;
+    column-gap: 30px;
+    row-gap: 58px;
+}
+
+@media screen and (max-width: 1024px) {
+    .cardlist{
+        row-gap: 45px;
+        grid-template-columns: repeat(auto-fill, 339px);
+    grid-template-rows: repeat(auto-fill, 1fr);
+    }
+  }
+  
+  @media screen and (max-width: 625px) {
+    .cardlist{
+        padding-top: 40px;
+        row-gap: 36px;
+        grid-template-columns: repeat(auto-fill, 300px);
+    grid-template-rows: repeat(auto-fill, 1fr);
+    }
+  }

@@ -1,10 +1,9 @@
 import React from 'react';
 import './AboutProject.css';
 
-function AboutProject() {
-  return (
-    <section className="project">
-      <h2 className="main__subtitle"> О проекте</h2>
+const AboutProject = React.forwardRef(({},myref) => (
+  <section ref={  myref }  className="project">      
+      <h2 className="main__subtitle project__subtitle"> О проекте</h2>
       <div className="main__line"></div>
     
       <div className="project__diplom">
@@ -24,8 +23,8 @@ function AboutProject() {
         <p className="project__weeks__about">Front-end</p>
       </div>
 
-    </section>
-  );
-}
+
+  </section>
+))
 
 export default AboutProject;
