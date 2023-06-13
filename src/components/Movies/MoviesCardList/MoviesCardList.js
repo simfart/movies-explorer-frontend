@@ -1,16 +1,23 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-function MoviesCardList({movies, isSaved, saveClick}) {
+function MoviesCardList({ movies, onSaveMovie, numberOfMovies }) {
+  const filteredMovies = movies.slice(0, numberOfMovies);
+
   return (
-    <section className="cardlist">          
-          {movies.map((movie) => (
-           <MoviesCard isSaved={isSaved} saveClick={saveClick} movie={movie} 
-           key={movie.id} />
-          ))}
- 
-  </section>
+    <section className="cardlist">
+      {
+        filteredMovies.map((movieItem) => (
+          <MoviesCard
+            onSaveMovie={onSaveMovie}
+            movie={movieItem}
+            key={movieItem.id}
+          />
+        )
+        )}
+
+    </section>
   );
 }
 
