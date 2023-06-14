@@ -3,22 +3,17 @@ import './Footer.css';
 
 function Footer() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <footer className='footer'>
+      <p className='footer__title'>Учебный проект Яндекс.Практикум х BeatFilm.</p>
+      <div className='footer__line' />
+      <div className='footer__block'>
+        <p className="footer__block__copyright">{`© ${new Date().getFullYear()}`}</p>
+        <ul className='footer__block__items'>
+          <li className='footer__block__item'>Яндекс.Практикум</li>
+          <li className='footer__block__item'>Github</li>
+        </ul>
+      </div>
+    </footer>
   );
 }
 

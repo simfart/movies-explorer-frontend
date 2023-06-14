@@ -5,6 +5,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
+  
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s linear 0.5s, opacity 0.5s linear;
@@ -13,16 +14,18 @@
 .navigation_opened {
   visibility: visible;
   opacity: 1;
-  transition-delay: 0s;
+  transition-delay: 0.5s;
+
 }
 
 .navigation__conteiner {
+  right: -67.7%;
+  transition: right 0.5s 0.1s;
   background: #202020;
   box-sizing: border-box;
   position: absolute;
   width: 67.7%;
   height: 100%;
-  right: 0;
   top: 0;
   padding-top: 162px;
   padding-bottom: 90px;
@@ -30,6 +33,11 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+
+.navigation__conteiner_opened{
+  right: 0;
+  transition: right 0.5s 0.5s;
 }
 
 .navigation__menu {

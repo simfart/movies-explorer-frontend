@@ -1,14 +1,15 @@
 .moviecard {
   margin: 0;
   display: flex;
-  flex-direction: column;
-  position: relative;
+  flex-direction: column; 
 }
 
 .moviecard__conteiner {
   border-radius: 6px;
   height: 201px;
   cursor: pointer;
+  overflow: hidden;
+  position: relative;
 }
 
 @media screen and (max-width: 1024px) {
@@ -74,32 +75,48 @@
   color: #8b8b8b;
 }
 
-.moviecard__save {
+.moviecard__btn {
   position: absolute;
   top: 14px;
   right: 14px;
   cursor: pointer;
   background: #313131;
-border-radius: 30px;
-width: 72px;
-font-size: 10px;
-line-height: 21px;
-color: #FFFFFF;
-border: none;
-
+  border-radius: 30px;
+  width: 72px;
+  font-size: 10px;
+  line-height: 21px;
+  color: #ffffff;
+  border: none;
+  opacity: 0;
+  transition: opacity 0.5s;
 }
 
-@media screen and (max-width: 625px) {
-    .moviecard__save{
-        top: 10px;
-        right: 10px;
-    }
-  }
+.moviecard__conteiner:hover .moviecard__btn{
+  opacity: 1;
+  transition: opacity 0.5s;
+}
 
-  .moviecard__save_active{
-    background: url('/src/images/save3.svg') ;
-    background-repeat: no-repeat;
-    font-size: 0;
-    width: 21px;
-    padding: 0;
+
+@media screen and (max-width: 625px) {
+  .moviecard__btn {
+    top: 10px;
+    right: 10px;
   }
+}
+
+.moviecard__btn_active {
+  background: url("/src/images/save3.svg");
+  background-repeat: no-repeat;
+  font-size: 0;
+  width: 21px;
+  padding: 0;
+  opacity: 1;
+}
+
+.moviecard__btn_saved{
+  background: url("/src/images/close_btn.svg");
+  background-repeat: no-repeat;
+  padding: 0;
+  width: 21px;
+  height: 21px;
+}

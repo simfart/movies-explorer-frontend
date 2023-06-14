@@ -14,3 +14,12 @@
 @import url("./components/Main/NavTab/NavTab.css");
 @import url("./components/Main/Portfolio/Portfolio.css");
 @import url("./components/Main/Techs/Techs.css");
+
+.btn{
+  opacity: 1;
+}
+
+.btn:hover{
+  opacity: 0.8;
+  transition: opacity 0.5s;
+}

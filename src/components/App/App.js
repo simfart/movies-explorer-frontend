@@ -28,7 +28,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
 
   const [numberOfMovies, setnumberOfMovies] = useState(0);
-  const [userEmail, setUserEmail] = useState('11111@11.ru');
+
   const widthSize = useScreenWidth()
 
   useEffect(() => {
@@ -59,12 +59,16 @@ function App() {
     setCheckbox(!checkbox)
   }
 
+
+
   function selectMovie(movie) {
     setSelectedCard(movie);
 
-  }
+   }
 
   console.log(selectedCard)
+
+
 
 
   return (
@@ -73,30 +77,42 @@ function App() {
         {/* <Header loggedIn={loggedIn} openMenu={openMenu} userEmail={userEmail}/> */}
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/movies" element={<Movies
-            movies={movies}
-            numberOfMovies={numberOfMovies}
-            onSaveMovie={selectMovie}
-
-            // to delete
-            openMenu={openMenu}
-            userEmail={userEmail}
-            loggedIn={loggedIn}
-            onCheckbox={onCheckbox}
-          />}
-          //
+          <Route path="/movies" element={
+            <Movies
+              movies={movies}
+              numberOfMovies={numberOfMovies}
+              onSaveMovie={selectMovie}
+          
+              // to delete for Header
+              openMenu={openMenu}
+       
+              loggedIn={loggedIn}
+              onCheckbox={onCheckbox}
+            />}
           />
-          <Route path="/saved-movies" element={<SavedMovies />} />
+          <Route path="/saved-movies" element={
+            <SavedMovies
+              movies={movies}
+              numberOfMovies={numberOfMovies}
+              onSaveMovie={selectMovie}
+
+              // to delete
+              openMenu={openMenu}
+             
+              loggedIn={loggedIn}
+              onCheckbox={onCheckbox}
+            />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/signin" element={<Login />} />
           <Route path="/signup" element={<Register />} />
         </Routes>
         <Navigation
           menuOpened={menuOpened}
-          onClose={openMenu}
-          userEmail={userEmail}
+          onClose={openMenu}      
         />
+         <Footer/>
       </div>
+     
     </CurrentUserContext.Provider>
   );
 }
