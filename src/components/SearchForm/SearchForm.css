@@ -19,7 +19,7 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #424242;
-padding-bottom: 13px;
+  padding-bottom: 13px;
   margin-bottom: 32px;
 }
 
@@ -52,10 +52,13 @@ padding-bottom: 13px;
   background: none;
   border: none;
   width: 100%;
+  outline: none;
+  color: #ffffff;
 }
 @media screen and (max-width: 625px) {
   .searchform__input {
     padding: 0;
+    max-width: 212px;
   }
 }
 
@@ -69,6 +72,5 @@ padding-bottom: 13px;
   font-size: 11px;
   text-align: center;
   color: #ffffff;
-  /* margin-left: 31px; */
   cursor: pointer;
 }

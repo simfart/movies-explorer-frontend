@@ -3,10 +3,10 @@ import './SearchForm.css';
 
 import FilterCheckbox from './FilterCheckbox/FilterCheckbox';
 
-function SearchForm({ onSubmit}) {
-    return (
+function SearchForm({ onSubmit }) {
+  return (
     <section className="searchform" >
-      <form className="searchform__unit" onSubmit={onSubmit} noValidate>
+      <form className="searchform__unit" onSubmit={onSubmit}>
         <fieldset className="searchform__field">
           <input className="searchform__input" placeholder='Фильм' required />
         </fieldset>

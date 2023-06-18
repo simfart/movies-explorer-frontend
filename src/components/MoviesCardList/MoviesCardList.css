@@ -1,5 +1,5 @@
 .cardlist {
-  padding-top: 70px;
+  padding: 70px 0 23px;
   display: grid;
   grid-template-columns: repeat(auto-fill, 360px);
   grid-template-rows: repeat(auto-fill, 1fr);
@@ -12,6 +12,7 @@
   .cardlist {
     row-gap: 45px;
     grid-template-columns: repeat(auto-fill, 339px);
+    padding-bottom: 9px;
   }
 }
 

@@ -1,25 +1,14 @@
-import React from 'react';
-import './Preloader.css';
+import React from 'react'
+import './Preloader.css'
 
-function Preloader() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img  className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const Preloader = () => {
+    return (
+        <div className='preloader'>
+            <div className='preloader__container'>
+                <span className='preloader__round'></span>
+            </div>
+        </div>
+    )
+};
 
-export default Preloader;
+export default Preloader

@@ -5,8 +5,9 @@ import AboutProject from './AboutProject/AboutProject';
 import Techs from './Techs/Techs';
 import AboutMe from './AboutMe/AboutMe';
 import Portfolio from './Portfolio/Portfolio';
-
+import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
+import './Main.css'
 
 function Main() {
 
@@ -14,12 +15,9 @@ function Main() {
   const techsOnClickRef = useRef(null);
   const aboutMeOnClickRef = useRef(null);
 
-//to delete
-const loggedIn = false
-
   return (
     <>
-      <Header loggedIn={loggedIn}/>
+      <Header loggedIn={false}/>
       <Promo 
       aboutProjectnClickRef={aboutProjectnClickRef}
         techsOnClickRef={techsOnClickRef}
@@ -29,6 +27,7 @@ const loggedIn = false
       <Techs ref = { techsOnClickRef }/>
       <AboutMe ref = { aboutMeOnClickRef  }/>
       <Portfolio/>
+      <Footer/>
    
     </>
   );

@@ -1,13 +1,13 @@
 import React from 'react';
 import './Movies.css';
 
-import Preloader from './Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
+import Footer from '../Footer/Footer';
 
 
-function Movies({ toggleDone, openMenu, userEmail, loggedIn, onCheckbox, onSaveMovie, movies, numberOfMovies,  }) {
+function Movies({ toggleDone, openMenu, userEmail, loggedIn, onCheckbox, onSaveMovie, movies, numberOfMovies, }) {
 
   return (
     <>
@@ -20,9 +20,9 @@ function Movies({ toggleDone, openMenu, userEmail, loggedIn, onCheckbox, onSaveM
           numberOfMovies={numberOfMovies}
           toggleDone={toggleDone}
           pass={'Movies'}
-      
         />
-      </div>
+       </div>
+      <Footer />
     </>
   );
 }

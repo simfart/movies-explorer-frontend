@@ -4,22 +4,23 @@ import './SavedMovies.css';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
+import Footer from '../Footer/Footer';
 
-function SavedMovies({loggedIn, openMenu,onCheckbox, movies, onSaveMovie }) {
+function SavedMovies({ loggedIn, openMenu, onCheckbox, movies, onSaveMovie, numberOfMovies }) {
   return (
-    <section className='savedMovies'>
+    <section>
       <Header loggedIn={loggedIn} openMenu={openMenu} />
-      <div className='movies'>
+      <div className='movies saved-movies'>
         <SearchForm onCheckbox={onCheckbox} />
         <MoviesCardList
           movies={movies}
           onSaveMovie={onSaveMovie}
-          numberOfMovies={3}
-                />
+          numberOfMovies={numberOfMovies}
+        />
       </div>
+      <Footer />
     </section>
   );
 }
-
 
 export default SavedMovies;

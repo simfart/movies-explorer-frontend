@@ -4,10 +4,10 @@ import './Footer.css';
 function Footer() {
   return (
     <footer className='footer'>
-      <p className='footer__title'>Учебный проект Яндекс.Практикум х BeatFilm.</p>
+      <span className='footer__title'>Учебный проект Яндекс.Практикум х BeatFilm.</span>
       <div className='footer__line' />
       <div className='footer__block'>
-        <p className="footer__block__copyright">{`© ${new Date().getFullYear()}`}</p>
+        <span className='footer__block__copyright'>{`© ${new Date().getFullYear()}`}</span>
         <ul className='footer__block__items'>
           <li className='footer__block__item'>Яндекс.Практикум</li>
           <li className='footer__block__item'>Github</li>
