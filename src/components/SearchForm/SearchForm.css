@@ -2,6 +2,10 @@
   margin-bottom: 47px;
 }
 
+.searchform__unit:focus-within {
+  border-bottom: 1px solid #4285f4;
+}
+
 @media screen and (max-width: 1100px) {
   .searchform {
     margin-bottom: 60px;
@@ -74,3 +78,5 @@
   color: #ffffff;
   cursor: pointer;
 }
+
+

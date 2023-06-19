@@ -22,7 +22,7 @@
 
 @media screen and (max-width: 1100px) {
   .about-me__unit {
-    margin-top: 66px;
+    margin-top: 68px;
   }
 }
 
@@ -93,7 +93,7 @@
   .about-me__text {
     font-size: 12px;
     line-height: 18px;
-    margin-bottom: 142px;
+    margin-bottom: 122px;
   }
   .about-me__photo {
     width: 255px;

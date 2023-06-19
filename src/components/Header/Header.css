@@ -31,6 +31,13 @@
   width: 100%;
 }
 
+@media screen and (max-width: 1000px) {
+  .header__auth {
+    display: flex;
+    justify-content: end;
+  }
+}
+
 .header__menu {
   display: flex;
   justify-content: space-between;
@@ -41,8 +48,6 @@
   text-decoration: none;
   color: #ffffff;
 }
-
-
 
 .header__menu-link {
   font-weight: 400;
@@ -94,7 +99,7 @@
   border: 2px solid rgba(170, 170, 170, 0.2);
   border-radius: 50px;
   display: flex;
-  padding: 8px 12px;  
+  padding: 8px 12px;
 }
 
 .header-profile-logo {
@@ -104,7 +109,7 @@
 }
 
 @media screen and (max-width: 1000px) {
-   .header__burger {
+  .header__burger {
     display: inline;
     background-color: rgba(0, 0, 0, 0);
     background-repeat: no-repeat;

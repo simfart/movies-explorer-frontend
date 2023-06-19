@@ -27,18 +27,9 @@
 }
 
 .footer__title {
-  /* font-size: 13px;
-  line-height: 16px; */
   color: #8b8b8b;
   margin: 0;
 }
-
-/* @media screen and (max-width: 625px) {
-  .footer__title {
-    font-size: 12px;
-line-height: 15px;
-  }
-} */
 
 .footer__line {
   width: 100%;
