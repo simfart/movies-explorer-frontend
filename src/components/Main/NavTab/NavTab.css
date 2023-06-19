@@ -1,0 +1,35 @@
+.navtab {
+  padding: 0;
+  margin: 0;
+}
+
+.navtab__btn {
+  width: 96px;
+  background: #303030;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 34px;
+  color: #ffffff;
+  border-style: none;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.navtab__btn:last-of-type {
+  margin-right: 0;
+}
+
+@media screen and (max-width: 625px) {
+  .navtab__btn {
+    width: 82px;
+    background: #303030;
+    border-radius: 6px;
+
+    font-size: 10px;
+    line-height: 26px;
+    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+    margin-right: 6px;
+  }
+}
