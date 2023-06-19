@@ -8,18 +8,18 @@ import Footer from '../Footer/Footer';
 
 function SavedMovies({ loggedIn, openMenu, onCheckbox, movies, onSaveMovie, numberOfMovies }) {
   return (
-    <section>
+    <>
       <Header loggedIn={loggedIn} openMenu={openMenu} />
-      <div className='movies saved-movies'>
+      <main className='movies saved-movies'>
         <SearchForm onCheckbox={onCheckbox} />
         <MoviesCardList
           movies={movies}
           onSaveMovie={onSaveMovie}
           numberOfMovies={numberOfMovies}
         />
-      </div>
+      </main>
       <Footer />
-    </section>
+    </>
   );
 }
 

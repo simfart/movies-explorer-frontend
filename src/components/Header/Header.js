@@ -12,19 +12,19 @@ function Header({ loggedIn, openMenu}) {
       <Link to='/' className='btn header__logo'> <img src={icon} alt='Лого' /></Link>
       <>
         {loggedIn ? (
-          <div className='header_auth'>
+          <div className='header__auth'>
             <div className='header__menu'>
               <nav>
-                <NavLink to='/movies' className={({ isActive }) => `link header__menu__link ${isActive ? 'link header__menu__link_active' : ''}`}>Фильмы</NavLink>
-                <NavLink to='/saved-movies' className={({ isActive }) => `link header__menu__link ${isActive ? 'link header__menu__link_active' : ''}`}>Сохранённые фильмы</NavLink>
+                <NavLink to='/movies' className={({ isActive }) => `link header__menu-link ${isActive ? 'header__menu-link_active' : ''}`}>Фильмы</NavLink>
+                <NavLink to='/saved-movies' className={({ isActive }) => `link header__menu-link ${isActive ? 'header__menu-link_active' : ''}`}>Сохранённые фильмы</NavLink>
               </nav>
-              <Link to='/profile' className='header__menu__profile'><HeaderProfile/></Link>
+              <Link to='/profile' className='header__menu-profile'><HeaderProfile/></Link>
             </div>
           {  <button className='btn header__burger' aria-label='Меню' onClick={openMenu}></button>}
        
           </div>
         ) : (
-          <nav className='header_not-auth'>
+          <nav className='header__not-auth'>
             <NavLink to='/signup' className='link header__link'>Регистрация</NavLink>
             <NavLink to='/signin' className='link header__link link header__link_active'>Войти</NavLink>
           </nav>

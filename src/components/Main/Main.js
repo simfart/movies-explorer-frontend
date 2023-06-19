@@ -17,18 +17,20 @@ function Main() {
 
   return (
     <>
-      <Header loggedIn={false}/>
-      <Promo 
-      aboutProjectnClickRef={aboutProjectnClickRef}
-        techsOnClickRef={techsOnClickRef}
-        aboutMeOnClickRef={aboutMeOnClickRef}
+      <Header loggedIn={false} />
+      <main>
+        <Promo
+          aboutProjectnClickRef={aboutProjectnClickRef}
+          techsOnClickRef={techsOnClickRef}
+          aboutMeOnClickRef={aboutMeOnClickRef}
         />
-      <AboutProject ref = { aboutProjectnClickRef }/>
-      <Techs ref = { techsOnClickRef }/>
-      <AboutMe ref = { aboutMeOnClickRef  }/>
-      <Portfolio/>
-      <Footer/>
-   
+        <AboutProject ref={aboutProjectnClickRef} />
+        <Techs ref={techsOnClickRef} />
+        <AboutMe ref={aboutMeOnClickRef} />
+        <Portfolio />
+      </main >
+      <Footer />
+
     </>
   );
 }

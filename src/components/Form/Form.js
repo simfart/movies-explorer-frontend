@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
+import{ Link } from 'react-router-dom';
 import icon from '../../images/Icon.svg';
 
 import './Form.css';
@@ -6,7 +7,7 @@ import './Form.css';
 function Form({ title, isRegister, btnName, linkText }) {
   return (
     <div className='form'>
-      <Link to='/' className='btn header__logo form__logo'> <img src={icon} alt='Лого' /></Link>
+      <Link to='/' className='btn form__logo'> <img src={icon} alt='Лого' /></Link>
       <h2 className='form__title'>{title}</h2>
 
       <form id='form'>
@@ -28,7 +29,7 @@ function Form({ title, isRegister, btnName, linkText }) {
         
         <button className={`form__btn ${isRegister? 'form__btn_register': '' }`} type='submit' >{btnName}</button>
         <div className='form-links'>
-          <span className='form-link__text'>{linkText}</span>
+          <span className='form-links__text'>{linkText}</span>
           {isRegister ? (<Link to='/signin' className='link form-links__link'>Войти</Link>) : (<Link to='/signup' className='link form-links__link'>Регистрация</Link>)}
         </div>
       </form>

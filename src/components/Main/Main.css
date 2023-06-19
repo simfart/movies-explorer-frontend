@@ -1,4 +1,4 @@
-.main__title {
+/* .main__title {
   font-size: 50px;
   line-height: 58px;
   font-weight: 400;
@@ -20,9 +20,9 @@
     max-width: 292px;
     margin-bottom: 212px;
   }
-}
+} */
 
-.main__subtitle {
+.main-subtitle {
   font-weight: 400;
   font-size: 22px;
   margin-bottom: 29px;
@@ -32,14 +32,14 @@
 }
 
 @media screen and (max-width: 625px) {
-  .main__subtitle {
+  .main-subtitle {
     margin: 0 0 28px;
     font-size: 18px;
     line-height: 22px;
   }
 }
 
-.main__line {
+.main-line {
   width: 100%;
   border-bottom: 1px solid #dadada;
 }

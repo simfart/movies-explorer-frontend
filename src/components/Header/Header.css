@@ -27,7 +27,7 @@
   height: 38px;
 }
 
-.header_auth {
+.header__auth {
   width: 100%;
 }
 
@@ -37,12 +37,14 @@
   align-items: center;
 }
 
-.header__menu__profile {
+.header__menu-profile {
   text-decoration: none;
   color: #ffffff;
 }
 
-.header__menu__link {
+
+
+.header__menu-link {
   font-weight: 400;
   font-size: 13px;
   text-decoration: none;
@@ -51,7 +53,7 @@
   vertical-align: middle;
 }
 
-.header__menu__link_active {
+.header__menu-link_active {
   font-weight: 500;
 }
 
@@ -81,21 +83,21 @@
   background-size: contain;
 }
 
-.header_not-auth {
+.header__not-auth {
   display: flex;
   width: 100%;
   justify-content: end;
   align-items: center;
 }
 
-.header__profile {
+.header-profile {
   border: 2px solid rgba(170, 170, 170, 0.2);
   border-radius: 50px;
   display: flex;
   padding: 8px 12px;  
 }
 
-.header__profile__logo {
+.header-profile-logo {
   width: 12px;
   height: 14px;
   margin: 0 7px 0 0;

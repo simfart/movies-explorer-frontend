@@ -12,7 +12,7 @@ function Movies({ toggleDone, openMenu, userEmail, loggedIn, onCheckbox, onSaveM
   return (
     <>
       <Header loggedIn={loggedIn} openMenu={openMenu} userEmail={userEmail} />
-      <div className='movies'>
+      <main className='movies'>
         <SearchForm onCheckbox={onCheckbox} />
         <MoviesCardList
           movies={movies}
@@ -21,7 +21,7 @@ function Movies({ toggleDone, openMenu, userEmail, loggedIn, onCheckbox, onSaveM
           toggleDone={toggleDone}
           pass={'Movies'}
         />
-       </div>
+       </main>
       <Footer />
     </>
   );

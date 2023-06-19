@@ -33,7 +33,7 @@
   }
 }
 
-.about-me__unit__describe {
+.about-me__unit-describe {
   max-width: 600px;
 }
 
@@ -80,7 +80,7 @@
     line-height: 40px;
   }
 
-  .about-me__unit__describe {
+  .about-me__unit-describe {
     max-width: 364px;
   }
 

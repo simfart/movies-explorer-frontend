@@ -13,7 +13,7 @@ function Navigation({ menuOpened, onClose }) {
           <NavLink to='/movies' className={({ isActive }) => `link navigation__link ${isActive ? 'navigation__link_active' : ''}`} onClick={onClose}>Фильмы</NavLink>
           <NavLink to='/saved-movies' className={({ isActive }) => `link navigation__link ${isActive ? 'navigation__link_active' : ''}`} onClick={onClose}>Сохранённые фильмы</NavLink>
         </nav>
-        <Link to='/profile' className='header__menu__profile' onClick={onClose}><HeaderProfile /></Link>
+        <Link to='/profile' className='navigation__profile' onClick={onClose}><HeaderProfile /></Link>
         <button
           onClick={onClose}
           className='btn navigation__btn-close '

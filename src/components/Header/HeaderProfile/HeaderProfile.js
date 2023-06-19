@@ -4,9 +4,9 @@ import './HeaderProfile.css';
 
 function HeaderProfile() {
   return (
-    <div className='header__profile'>
-      <img className='header__profile__logo' src={iconProfile} alt='Иконка Аккаунт' />
-      <p className='header__profile__e-mail'>Аккаунт</p>
+    <div className='header-profile'>
+      <img className='header-profile-logo' src={iconProfile} alt='Иконка Аккаунт' />
+      <p className='header-profile-email'>Аккаунт</p>
     </div>
   )
 }

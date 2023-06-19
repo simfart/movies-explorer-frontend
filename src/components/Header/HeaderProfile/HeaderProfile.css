@@ -1,17 +1,17 @@
-.header__profile {
+.header-profile {
   border: 2px solid rgba(170, 170, 170, 0.2);
   border-radius: 50px;
   display: flex;
   padding: 6px 12px;
 }
 
-.header__profile__logo {
+.header-profile-logo {
   width: 12px;
   height: 14px;
   margin: 0 7px 0 0;
 }
 
-.header__profile__e-mail {
+.header-profile-email {
   margin: 0;
   font-weight: 500;
   font-size: 14px;

@@ -61,7 +61,7 @@ letter-spacing: -0.04em;
     padding: 70px 18px;
   }
 
-  .main__line_dark {
+  .main-lines_dark {
     border-bottom: 1px solid #000000;
   }
 
@@ -89,7 +89,7 @@ letter-spacing: -0.04em;
   margin: 0 auto;
 }
 
-.techs__list__item {
+.techs__list-item {
   border-radius: 10px;
   background-color: #303030;
   font-size: 14px;
@@ -98,7 +98,7 @@ letter-spacing: -0.04em;
   text-align: center;
 }
 
-.techs__list__item:last-of-type {
+.techs__list-item:last-of-type {
   margin-right: 0;
 }
 
@@ -107,7 +107,7 @@ letter-spacing: -0.04em;
     grid-template-columns: repeat(auto-fill, minmax(84px, 84px));
   }
 
-  .techs__list__item {
+  .techs__list-item {
     font-size: 12px;
     line-height: 57px;
   }
@@ -127,7 +127,7 @@ letter-spacing: -0.04em;
     padding: 0 30px;
   }
 
-  .techs__list__item {
+  .techs__list-item {
     line-height: 57px;
   }
 }

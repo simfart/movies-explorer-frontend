@@ -51,7 +51,7 @@
   }
 }
 
-.profile__field__message {
+.profile__field-message {
   display: none;
 }
 
@@ -83,11 +83,11 @@
   font-size: 11px;
   line-height: 13px;
 }
-.profile__field__label {
+.profile__field-label {
   font-weight: 500;
 }
 
-.profile__field__input {
+.profile__field-input {
   padding: 0;
   margin: 0;
   border: none;

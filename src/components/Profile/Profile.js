@@ -10,30 +10,30 @@ function Profile({ loggedIn, openMenu }) {
         <h2 className="profile__title ">Привет, Виталий!</h2>
         <fieldset className="profile__info">
           <div className="profile__field">
-            <label class="profile__field__label" for="name">Имя</label>
+            <label class="profile__field-label" for="name">Имя</label>
             <input
               value='Виталий'
               type="text"
-              className='profile__field__input'
+              className='profile__field-input'
               name="name"
               minLength="2"
               maxLength="40"
               required
             />
-            <div class="profile__field__message"></div>
+            <div class="profile__field-message"></div>
           </div>
           <div className='profile__line' />
           <div className="profile__field">
-            <label class="text-field__label" for="email">E-mail</label>
+            <label class="text-field-label" for="email">E-mail</label>
             <input
               value='pochta@yandex.ru'
               type="email"
-              className='profile__field__input'
+              className='profile__field-input'
               name="email"
               required
             />
           </div>
-          <div class="profile__field__message"></div>
+          <div class="profile__field-message"></div>
         </fieldset>
         <button className="btn profile__btn" type="submit" aria-label="Редактировать">
           Редактировать

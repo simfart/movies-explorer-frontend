@@ -19,7 +19,7 @@ function MoviesCardList({ movies, onSaveMovie, numberOfMovies, pass }) {
           )
           )}
       </div>
-      {pass === 'Movies' && (<button className='cardlist__btn btn' type="button">Ещё</button>)}
+      {pass === 'Movies' && (<button className='movies__btn btn' type="button">Ещё</button>)}
     </section>
   );
 }
