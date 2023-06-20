@@ -9,7 +9,7 @@ import Register from '../Register/Register'
 import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
 import Navigation from '../Navigation/Navigation';
-import PageNotFound from '../PageNotFound/PageNotFound';
+import PageNotFound from '../PageNotFound/PageNotFound'
 
 import useScreenWidth from '../../hooks/useScreenWidth';
 import moviesApi from '../../utils/MoviesApi.js';
@@ -20,22 +20,25 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(true); //for Header
   const [menuOpened, setmenuOpened] = useState(false);
   const [checkbox, setCheckbox] = useState(false);
-  const [movies, setMovies] = useState([]);
+  const [allmovies, setAllMovies] = useState([]);
   const [savedmovies, setSavedMovies] = useState([]);
   const [numberOfMovies, setnumberOfMovies] = useState(0);
   const [selectedCard, setSelectedCard] = useState('');
+
+  const [textToFind, setTextToFind] = useState();
+  const [filteredMovies, setFilteredMovies] = useState([]);
 
   const widthSize = useScreenWidth()
 
   useEffect(() => {
     const breakpointMiddle = 1024
     const breakpointSmall = 625
-    if(widthSize >= breakpointMiddle){
+    if (widthSize >= breakpointMiddle) {
       setnumberOfMovies(12)
       setSavedMovies(3)
-    } else if(widthSize >= breakpointSmall){
+    } else if (widthSize >= breakpointSmall) {
       setnumberOfMovies(8)
-    } else{
+    } else {
       setnumberOfMovies(5)
       setSavedMovies(2)
     }
@@ -45,7 +48,8 @@ function App() {
   useEffect(() => {
     Promise.all([moviesApi.getMovies()])
       .then(([receivedMovies]) => {
-        setMovies(receivedMovies);
+        setAllMovies(receivedMovies);
+
       })
       .catch((err) => {
         console.log(err);
@@ -59,11 +63,27 @@ function App() {
 
   function onCheckbox() {
     setCheckbox(!checkbox)
+    
   }
+
+  console.log('checkbox', checkbox)
 
   function selectMovie(movie) {
     setSelectedCard(movie);
   }
+  function toFilterMovies(textToFind) {
+    const filmsFilterByText = allmovies.filter(function (film) {
+      return film.nameRU.toLowerCase().includes(textToFind)
+    });
+    const filmsFilterByTime = filmsFilterByText.filter(function (film) {
+      return film.duration<=40
+    })
+
+    if (checkbox) {
+      setFilteredMovies(filmsFilterByTime)
+    } else { setFilteredMovies(filmsFilterByText) }
+  }
+  console.log('filteredMovies', filteredMovies)
 
   return (
     <div className="app">
@@ -72,22 +92,25 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/movies" element={
           <Movies
-            movies={movies}
+            movies={allmovies}
             numberOfMovies={numberOfMovies}
             onSaveMovie={selectMovie}
             onCheckbox={onCheckbox}
             openMenu={openMenu}
             loggedIn={loggedIn}
+            toFindText={toFilterMovies}
+
           />}
         />
         <Route path="/saved-movies" element={
           <SavedMovies
-            movies={movies}
+            movies={allmovies}
             numberOfMovies={savedmovies}
             onSaveMovie={selectMovie}
             openMenu={openMenu}
             loggedIn={loggedIn}
             onCheckbox={onCheckbox}
+
           />} />
         <Route path="/profile" element={<Profile
           openMenu={openMenu}

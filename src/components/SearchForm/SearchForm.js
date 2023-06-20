@@ -1,18 +1,49 @@
-import React from 'react';
+import { useEffect } from 'react';
 import './SearchForm.css';
+import { useForm } from '../../hooks/useForm'
+import { ERRSEARCH } from '../../utils/constants'
 
 import FilterCheckbox from './FilterCheckbox/FilterCheckbox';
 
-function SearchForm({ onSubmit }) {
+function SearchForm({toFindText, onCheckbox }) {
+  const {
+    values,
+    handleChange,
+    setValues,
+    isValid,
+    setIsValid,
+    setErrors,
+  } = useForm({});
+
+  useEffect(() => {
+    setValues();
+    setIsValid(true);
+  }, [setErrors, setIsValid, setValues]);
+
+  function handleSubmit(e) {
+    // Запрещаем браузеру переходить по адресу формы
+    e.preventDefault();
+    // Передаём значения управляемых компонентов во внешний обработчик
+    if (!values || !values.film) {
+      setIsValid(false)
+      } else {
+      console.log('else values', values.film)
+      toFindText(values.film.toLowerCase());
+     }
+  }
+  const lostInputFocus = () => setIsValid(true)
+
+
   return (
     <section className="searchform" >
-      <form className="searchform__unit" onSubmit={onSubmit}>
+      <form className="searchform__unit" onSubmit={handleSubmit} noValidate>
         <fieldset className="searchform__field">
-          <input className="searchform__input" placeholder='Фильм' required />
+          <input className="searchform__input" placeholder='Фильм' onChange={handleChange} onBlur={lostInputFocus} name="film" required />
+          <div className='form-field__message'>{isValid ? '' : ERRSEARCH}</div>
         </fieldset>
-        <button className='btn searchform__btn' type="submit" aria-label="Найти">Найти</button>
+        <button className='btn searchform__btn' type="submit" aria-label="Найти" disabled={!isValid} >Найти</button>
       </form>
-      <FilterCheckbox />
+      <FilterCheckbox onCheckbox={onCheckbox} />
     </section>
   );
 }

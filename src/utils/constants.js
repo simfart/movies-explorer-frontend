@@ -1,0 +1,1 @@
+export const ERRSEARCH = 'Нужно ввести ключевое слово';

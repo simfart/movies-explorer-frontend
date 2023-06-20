@@ -11,7 +11,6 @@ export function useForm(inputValues) {
     const input = event.target;
     setErrors({ ...errors, [name]: input.validationMessage });
     setIsValid(input.closest('form').checkValidity());
-
   };
   return { values, handleChange, setValues, isValid, setIsValid, errors, setErrors };
 }
