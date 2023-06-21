@@ -5,7 +5,7 @@ import { ERRSEARCH } from '../../utils/constants'
 
 import FilterCheckbox from './FilterCheckbox/FilterCheckbox';
 
-function SearchForm({toFindText, onCheckbox }) {
+function SearchForm({ toFindText, onCheckbox }) {
   const {
     values,
     handleChange,
@@ -26,10 +26,10 @@ function SearchForm({toFindText, onCheckbox }) {
     // Передаём значения управляемых компонентов во внешний обработчик
     if (!values || !values.film) {
       setIsValid(false)
-      } else {
+    } else {
       console.log('else values', values.film)
       toFindText(values.film.toLowerCase());
-     }
+    }
   }
   const lostInputFocus = () => setIsValid(true)
 
@@ -39,10 +39,10 @@ function SearchForm({toFindText, onCheckbox }) {
       <form className="searchform__unit" onSubmit={handleSubmit} noValidate>
         <fieldset className="searchform__field">
           <input className="searchform__input" placeholder='Фильм' onChange={handleChange} onBlur={lostInputFocus} name="film" required />
-          <div className='form-field__message'>{isValid ? '' : ERRSEARCH}</div>
         </fieldset>
         <button className='btn searchform__btn' type="submit" aria-label="Найти" disabled={!isValid} >Найти</button>
       </form>
+      <div className='form-field__message'>{isValid ? '' : ERRSEARCH}</div>
       <FilterCheckbox onCheckbox={onCheckbox} />
     </section>
   );

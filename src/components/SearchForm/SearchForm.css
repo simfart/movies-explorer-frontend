@@ -24,20 +24,36 @@
   align-items: center;
   border-bottom: 1px solid #424242;
   padding-bottom: 13px;
+  /* margin-bottom: 32px; */
+}
+
+/* @media screen and (max-width: 1100px) {
+  .searchform__unit {
+    margin-bottom: 30px;
+  }
+} */
+@media screen and (max-width: 625px) {
+  .searchform__unit {
+    padding-bottom: 9px;
+    /* margin-bottom: 40px; */
+  }
+}
+/* 
+.searchform-error{
   margin-bottom: 32px;
 }
 
 @media screen and (max-width: 1100px) {
-  .searchform__unit {
+  .searchform-error {
     margin-bottom: 30px;
   }
 }
+
 @media screen and (max-width: 625px) {
-  .searchform__unit {
-    padding-bottom: 9px;
+  .searchform-error {
     margin-bottom: 40px;
   }
-}
+} */
 
 .searchform__field {
   font-weight: 500;

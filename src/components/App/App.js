@@ -27,6 +27,7 @@ function App() {
 
   const [textToFind, setTextToFind] = useState();
   const [filteredMovies, setFilteredMovies] = useState([]);
+  const [filteredByCheckBox, setFilteredByCheckBox] = useState([]);
 
   const widthSize = useScreenWidth()
 
@@ -62,15 +63,36 @@ function App() {
   }, [menuOpened]);
 
   function onCheckbox() {
-    setCheckbox(!checkbox)
-    
+    setCheckbox(!checkbox) 
+    console.log('checkbox', checkbox)
+    // if(checkbox){
+    //   const filmsFilterByTime = filteredMovies.filter(function (film) {
+    //     return film.duration<=40})
+    //     setFilteredByCheckBox(filmsFilterByTime)
+    // }
   }
 
-  console.log('checkbox', checkbox)
+  useEffect(() => {
+      if(checkbox){
+      const filmsFilterByTime = filteredMovies.filter(function(film) {
+        return film.duration<=40})
+        setFilteredByCheckBox(filmsFilterByTime)
+    } else {setFilteredByCheckBox(filteredMovies)}
+  }, [checkbox]
+  );
+
+  // function toFilterMoviesByCheckBox(){
+  //   const filmsFilterByTime = filteredMovies.filter(function (film) {
+  //     return film.duration<=40})
+  //     setFilteredByCheckBox(filmsFilterByTime)
+  // }
+  
+  // console.log('checkbox', checkbox)
 
   function selectMovie(movie) {
     setSelectedCard(movie);
   }
+ 
   function toFilterMovies(textToFind) {
     const filmsFilterByText = allmovies.filter(function (film) {
       return film.nameRU.toLowerCase().includes(textToFind)
@@ -78,12 +100,17 @@ function App() {
     const filmsFilterByTime = filmsFilterByText.filter(function (film) {
       return film.duration<=40
     })
-
     if (checkbox) {
-      setFilteredMovies(filmsFilterByTime)
+      setFilteredByCheckBox(filmsFilterByTime)
     } else { setFilteredMovies(filmsFilterByText) }
   }
+
+
+
+
   console.log('filteredMovies', filteredMovies)
+  console.log('filteredMoviesByCheckBox',filteredByCheckBox)
+
 
   return (
     <div className="app">
