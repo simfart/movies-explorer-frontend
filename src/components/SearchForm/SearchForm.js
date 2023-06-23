@@ -1,23 +1,17 @@
-import { useEffect } from 'react';
-import './SearchForm.css';
-import { useForm } from '../../hooks/useForm'
-import { ERRSEARCH } from '../../utils/constants'
+import { useEffect, useState } from "react";
+import "./SearchForm.css";
+import { useForm } from "../../hooks/useForm";
+import { ERRSEARCH } from "../../utils/constants";
 
-import FilterCheckbox from './FilterCheckbox/FilterCheckbox';
+import FilterCheckbox from "./FilterCheckbox/FilterCheckbox";
 
-function SearchForm({ toFindText, onCheckbox, isChecked  }) {
+function SearchForm({ toFindText, onCheckbox, isChecked }) {
+  const { values, handleChange, setValues, isValid, setIsValid, setErrors } = useForm({});
 
-  const {
-    values,
-    handleChange,
-    setValues,
-    isValid,
-    setIsValid,
-    setErrors,
-  } = useForm({});
+  // const [word, setWord] = useState('');
 
   useEffect(() => {
-    setValues();
+    setValues({film: JSON.parse(localStorage.getItem('textToFind'))});
     setIsValid(true);
   }, [setErrors, setIsValid, setValues]);
 
@@ -26,25 +20,38 @@ function SearchForm({ toFindText, onCheckbox, isChecked  }) {
     e.preventDefault();
     // Передаём значения управляемых компонентов во внешний обработчик
     if (!values || !values.film) {
-      setIsValid(false)
+      setIsValid(false);
     } else {
-      console.log('else values', values.film)
       toFindText(values.film.toLowerCase());
     }
   }
-  const lostInputFocus = () => setIsValid(true)
-
+  const lostInputFocus = () => setIsValid(true);
 
   return (
-    <section className="searchform" >
+    <section className="searchform">
       <form className="searchform__unit" onSubmit={handleSubmit} noValidate>
         <fieldset className="searchform__field">
-          <input className="searchform__input" placeholder='Фильм' onChange={handleChange} onBlur={lostInputFocus} name="film" required />
+          <input
+            value={values.film || ''}
+            className="searchform__input"
+            placeholder="Фильм"            
+            onChange={handleChange}
+            onBlur={lostInputFocus}
+            name="film"
+            required
+          />
         </fieldset>
-        <button className='btn searchform__btn' type="submit" aria-label="Найти" disabled={!isValid} >Найти</button>
+        <button
+          className="btn searchform__btn"
+          type="submit"
+          aria-label="Найти"
+          disabled={!isValid}
+        >
+          Найти
+        </button>
       </form>
-      <div className='form-field__message'>{isValid ? '' : ERRSEARCH}</div>
-      <FilterCheckbox onCheckbox={onCheckbox} isChecked={isChecked } />
+      <div className="form-field__message">{isValid ? "" : ERRSEARCH}</div>
+      <FilterCheckbox onCheckbox={onCheckbox} isChecked={isChecked} />
     </section>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './MoviesCard.css';
 
-function MoviesCard({ movie, onSaveMovie, pass }) {
+function MoviesCard({ movie, onSaveMovie, pass, isVis }) {
 
   const [savedIcon, setSavedIcon] = useState(false);
 
@@ -19,7 +19,7 @@ function MoviesCard({ movie, onSaveMovie, pass }) {
   }
 
   return (
-    <figure className='moviecard'>
+    <figure className={`moviecard ${isVis && 'moviecard_visible'}`}>
       <div className='moviecard__conteiner'>
         <img className='moviecard__photo' src={`https://api.nomoreparties.co${movie.image.url}`} alt={movie.nameRU} />
         {pass === 'Movies'

@@ -12,13 +12,17 @@ export default function useScreenWidth() {
 
     useEffect(() => {
         if (isWindow) {
-            setWindowWidth(getWidth());
-      
-            window.addEventListener('resize', resize);
-       
-            return () => window.removeEventListener('resize', resize);
+            setTimeout(function () {
+                
+                setWindowWidth(getWidth());
+
+                window.addEventListener('resize', resize);
+
+                return () => window.removeEventListener('resize', resize);
+
+            }, 500);
         }
-       }, [isWindow]);
+    }, [isWindow]);
 
     return windowWidth;
 }

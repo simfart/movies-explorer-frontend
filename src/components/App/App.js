@@ -26,39 +26,28 @@ function App() {
 
   const [allmovies, setAllMovies] = useState([]);
   const [savedmovies, setSavedMovies] = useState([]);
-  const [numberOfMovies, setnumberOfMovies] = useState(0);
+  const [numberAllMovies, setNumberAllMovies] = useState(0);
   const [selectedCard, setSelectedCard] = useState('');
-
-
-  const [textToFind, setTextToFind] = useState();
-
   const [filteredMoviesByText, setFilteredMoviesByText] = useState([]);
   const [filteredByCheckBox, setFilteredByCheckBox] = useState([]);
   const [checkbox, setCheckbox] = useState(false);
-  const [moviesMessage, setMoviesMessage] = useState('');
+
   const [messagePopup, setMessagePopup] = useState('');
-  const [isBtnMore, setIsBtnMore] = useState(false);
+
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
-  const widthSize = useScreenWidth()
-
-  useEffect(() => {
-    const breakpointMiddle = 1024
-    const breakpointSmall = 625
-    if (widthSize >= breakpointMiddle) {
-      setnumberOfMovies(12)
-      setSavedMovies(3)
-    } else if (widthSize >= breakpointSmall) {
-      setnumberOfMovies(8)
-    } else {
-      setnumberOfMovies(5)
-      setSavedMovies(2)
-    }
-  }, [widthSize])
-
+   // burger menu
   const openMenu = useCallback(() => {
     setmenuOpened(!menuOpened);
   }, [menuOpened]);
+
+
+  useEffect(() => {
+    checkbox
+      ? setNumberAllMovies(filteredByCheckBox.length)
+      : setNumberAllMovies(filteredMoviesByText.length)
+  }, [checkbox, filteredByCheckBox, filteredMoviesByText])
+
 
   // from local Storage movies & checkbox
   useEffect(() => {
@@ -76,9 +65,10 @@ function App() {
         return film.duration <= 40
       })
       setFilteredByCheckBox(filmsFilterByTime)
-      localStorage.setItem("checkbox", JSON.stringify(checkbox));
+       localStorage.setItem("checkbox", JSON.stringify(checkbox));
     }
   }
+
   // checkbox listener
   useEffect(() => {
     filterCheckbox(filteredMoviesByText)
@@ -90,7 +80,6 @@ function App() {
     filterCheckbox(filteredMoviesByText)
     localStorage.setItem("checkbox", JSON.stringify(!checkbox));
   }
-
 
   // btn to search
   function toSearchMovies(textToFind) {
@@ -106,6 +95,7 @@ function App() {
         } else {
           setFilteredMoviesByText(filmsFilterByText)
           localStorage.setItem("filmsFilterByText", JSON.stringify(filmsFilterByText));
+          localStorage.setItem("textToFind", JSON.stringify(textToFind));
           filterCheckbox(filmsFilterByText)
         }
       })
@@ -124,7 +114,6 @@ function App() {
     return <Preloader />;
   }
 
-
   function selectMovie(movie) {
     setSelectedCard(movie);
   }
@@ -140,15 +129,12 @@ function App() {
         <Route path="/movies" element={
           <Movies
             movies={checkbox ? filteredByCheckBox : filteredMoviesByText}
-            numberOfMovies={numberOfMovies}
             onSaveMovie={selectMovie}
             onCheckbox={onCheckbox}
             openMenu={openMenu}
             loggedIn={loggedIn}
             toFindText={toSearchMovies}
             isChecked={checkbox}
-            isBtnMore={isBtnMore}
-            moviesMessage={moviesMessage}
           />}
         />
         <Route path="/saved-movies" element={
