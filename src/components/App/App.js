@@ -11,9 +11,11 @@ import Profile from '../Profile/Profile';
 import Navigation from '../Navigation/Navigation';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import Preloader from '../Movies/Preloader/Preloader';
+import InfoTooltip from '../InfoTooltip/InfoTooltip';
 
 import useScreenWidth from '../../hooks/useScreenWidth';
 import moviesApi from '../../utils/MoviesApi.js';
+import { ERRSEARCH, ERRNOMOVIE, ERRWORDSEARCH } from '../../utils/constants';
 
 import './App.css'
 
@@ -33,10 +35,10 @@ function App() {
   const [filteredMoviesByText, setFilteredMoviesByText] = useState([]);
   const [filteredByCheckBox, setFilteredByCheckBox] = useState([]);
   const [checkbox, setCheckbox] = useState(false);
-
-
-  const [checkBoxState, setcheckBoxState] = useState();
-  const [moviesState, setmoviesState] = useState([]);
+  const [moviesMessage, setMoviesMessage] = useState('');
+  const [messagePopup, setMessagePopup] = useState('');
+  const [isBtnMore, setIsBtnMore] = useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
   const widthSize = useScreenWidth()
 
@@ -58,15 +60,17 @@ function App() {
     setmenuOpened(!menuOpened);
   }, [menuOpened]);
 
- 
+  // from local Storage movies & checkbox
   useEffect(() => {
     const moviesState = JSON.parse(localStorage.getItem('filmsFilterByText'))
     const checkboxState = JSON.parse(localStorage.getItem('checkbox'))
-    setCheckbox(checkboxState)
-    setFilteredMoviesByText(moviesState)
+    moviesState ? setFilteredMoviesByText(moviesState) : setFilteredMoviesByText([])
+    checkboxState ? setCheckbox(checkboxState) : setCheckbox(false)
   }, [setFilteredMoviesByText, setCheckbox])
 
-  function filterCheckbox(movies){
+
+  // time filtering with a checkbox
+  function filterCheckbox(movies) {
     if (checkbox) {
       const filmsFilterByTime = movies.filter(function (film) {
         return film.duration <= 40
@@ -75,37 +79,39 @@ function App() {
       localStorage.setItem("checkbox", JSON.stringify(checkbox));
     }
   }
-
+  // checkbox listener
   useEffect(() => {
     filterCheckbox(filteredMoviesByText)
-    // if (checkbox) {
-    //   const filmsFilterByTime = filteredMoviesByText.filter(function (film) {
-    //     return film.duration <= 40
-    //   })
-    //   setFilteredByCheckBox(filmsFilterByTime)
-    // } else { setFilteredByCheckBox([]) }
   }, [checkbox]);
 
+  // checkbox btn
+  function onCheckbox() {
+    setCheckbox(!checkbox)
+    filterCheckbox(filteredMoviesByText)
+    localStorage.setItem("checkbox", JSON.stringify(!checkbox));
+  }
 
-  function set(textToFind) {
+
+  // btn to search
+  function toSearchMovies(textToFind) {
     setPreloader(true)
     moviesApi.getMovies()
       .then((movies) => {
         const filmsFilterByText = movies.filter(function (film) {
           return film.nameRU.toLowerCase().includes(textToFind)
         });
-        setFilteredMoviesByText(filmsFilterByText)
-        localStorage.setItem("filmsFilterByText", JSON.stringify(filmsFilterByText));
-        filterCheckbox(filmsFilterByText)
-        // if (checkbox) {
-        //   const filmsFilterByTime = filmsFilterByText.filter(function (film) {
-        //     return film.duration <= 40
-        //   })
-        //   setFilteredByCheckBox(filmsFilterByTime)
-        //   localStorage.setItem("checkbox", JSON.stringify(checkbox));
-        // }
+        if (filmsFilterByText.length === 0) {
+          setIsInfoTooltipOpen(true)
+          setMessagePopup(ERRNOMOVIE)
+        } else {
+          setFilteredMoviesByText(filmsFilterByText)
+          localStorage.setItem("filmsFilterByText", JSON.stringify(filmsFilterByText));
+          filterCheckbox(filmsFilterByText)
+        }
       })
       .catch((err) => {
+        setIsInfoTooltipOpen(true)
+        setMessagePopup(ERRSEARCH)
         console.log(err);
       })
       .finally(() => {
@@ -114,19 +120,16 @@ function App() {
   }
 
 
-  function onCheckbox() {
-    setCheckbox(!checkbox)
-    localStorage.setItem("checkbox", JSON.stringify(!checkbox));
-  }
-
   if (preloader) {
     return <Preloader />;
   }
 
 
-
   function selectMovie(movie) {
     setSelectedCard(movie);
+  }
+  function onCloseInfoTooltip() {
+    setIsInfoTooltipOpen(false)
   }
 
   return (
@@ -137,14 +140,15 @@ function App() {
         <Route path="/movies" element={
           <Movies
             movies={checkbox ? filteredByCheckBox : filteredMoviesByText}
-
             numberOfMovies={numberOfMovies}
             onSaveMovie={selectMovie}
             onCheckbox={onCheckbox}
             openMenu={openMenu}
             loggedIn={loggedIn}
-            toFindText={set}
+            toFindText={toSearchMovies}
             isChecked={checkbox}
+            isBtnMore={isBtnMore}
+            moviesMessage={moviesMessage}
           />}
         />
         <Route path="/saved-movies" element={
@@ -168,6 +172,11 @@ function App() {
       <Navigation
         menuOpened={menuOpened}
         onClose={openMenu}
+      />
+      <InfoTooltip
+        isOpen={isInfoTooltipOpen}
+        onClose={onCloseInfoTooltip}
+        messagePopup={messagePopup}
       />
     </div>
   );

@@ -7,7 +7,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import Footer from '../Footer/Footer';
 
 
-function Movies({ toggleDone, openMenu, loggedIn, onCheckbox, isChecked, onSaveMovie, movies, numberOfMovies,toFindText  }) {
+function Movies({ toggleDone, openMenu, loggedIn, onCheckbox, isChecked, onSaveMovie, movies, numberOfMovies,toFindText, isBtnMore,moviesMessage  }) {
 
   return (
     <>
@@ -20,6 +20,8 @@ function Movies({ toggleDone, openMenu, loggedIn, onCheckbox, isChecked, onSaveM
           numberOfMovies={numberOfMovies}
           toggleDone={toggleDone}
           pass={'Movies'}
+          moviesMessage={moviesMessage}
+          isBtnMore={isBtnMore}
         />
        </main>
       <Footer />

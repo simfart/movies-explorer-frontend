@@ -3,7 +3,7 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 function MoviesCardList({ movies, onSaveMovie, numberOfMovies, pass }) {
-  const filteredMovies = movies.slice(0, numberOfMovies);
+  // const filteredMovies = movies.slice(0, numberOfMovies);
   // console.log('numberOfMovies', numberOfMovies)
   // console.log('movies', movies)
 
@@ -13,7 +13,7 @@ function MoviesCardList({ movies, onSaveMovie, numberOfMovies, pass }) {
     <section>
       <div className="cardlist">
         {
-          filteredMovies.map((movieItem) => (
+          movies.map((movieItem) => (
             <MoviesCard
               onSaveMovie={onSaveMovie}
               movie={movieItem}
