@@ -1,8 +1,9 @@
 import React from 'react';
 import './FilterCheckbox.css';
 
-function FilterCheckbox({ onCheckbox }) {
-  return (
+function FilterCheckbox({ onCheckbox, isChecked }) {
+
+ return (
     <div className='checkbox'>
       <>
         <input
@@ -11,14 +12,14 @@ function FilterCheckbox({ onCheckbox }) {
           id='switch'
           name='сheckbox'
           className='checkbox__input'
-          defaultChecked={false}
           onChange={onCheckbox}
+          checked={isChecked? true : false}
         />
-        <label htmlFor='switch' className='checkbox__label' />
+        <label htmlFor='switch' className='checkbox__label'/>
       </>
       <span className='checkbox__text'>Короткометражки</span>
     </div>
-  );
+  ); 
 }
 
 export default FilterCheckbox;

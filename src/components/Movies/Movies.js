@@ -7,13 +7,13 @@ import SearchForm from '../SearchForm/SearchForm';
 import Footer from '../Footer/Footer';
 
 
-function Movies({ toggleDone, openMenu, loggedIn, onCheckbox, onSaveMovie, movies, numberOfMovies,toFindText  }) {
+function Movies({ toggleDone, openMenu, loggedIn, onCheckbox, isChecked, onSaveMovie, movies, numberOfMovies,toFindText  }) {
 
   return (
     <>
       <Header loggedIn={loggedIn} openMenu={openMenu} />
       <main className='movies'>
-        <SearchForm onCheckbox={onCheckbox} andleUpdateAvatar toFindText={toFindText} />
+        <SearchForm onCheckbox={onCheckbox} isChecked={isChecked} toFindText={toFindText} />
         <MoviesCardList
           movies={movies}
           onSaveMovie={onSaveMovie}

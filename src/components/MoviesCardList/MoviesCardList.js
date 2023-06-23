@@ -4,6 +4,10 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 
 function MoviesCardList({ movies, onSaveMovie, numberOfMovies, pass }) {
   const filteredMovies = movies.slice(0, numberOfMovies);
+  // console.log('numberOfMovies', numberOfMovies)
+  // console.log('movies', movies)
+
+  // console.log(' filteredMovies', filteredMovies)
 
   return (
     <section>

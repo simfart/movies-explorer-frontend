@@ -5,7 +5,8 @@ import { ERRSEARCH } from '../../utils/constants'
 
 import FilterCheckbox from './FilterCheckbox/FilterCheckbox';
 
-function SearchForm({ toFindText, onCheckbox }) {
+function SearchForm({ toFindText, onCheckbox, isChecked  }) {
+
   const {
     values,
     handleChange,
@@ -43,7 +44,7 @@ function SearchForm({ toFindText, onCheckbox }) {
         <button className='btn searchform__btn' type="submit" aria-label="Найти" disabled={!isValid} >Найти</button>
       </form>
       <div className='form-field__message'>{isValid ? '' : ERRSEARCH}</div>
-      <FilterCheckbox onCheckbox={onCheckbox} />
+      <FilterCheckbox onCheckbox={onCheckbox} isChecked={isChecked } />
     </section>
   );
 }

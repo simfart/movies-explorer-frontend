@@ -52,6 +52,17 @@
   transform: translateX(-100%);
 }
 
+
+/* .checkbox__label_active + label {
+  background: #3ddc84;
+}
+
+.checkbox__label_active + label:after {
+  left: calc(100% - 2px);
+  transform: translateX(-100%);
+}
+ */
+
 .checkbox__label:active:after {
   width: 20px;
 }
