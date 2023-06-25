@@ -33,17 +33,17 @@ function Form({ title, isRegisterPage, btnName, linkText, handleSubmit, handleCh
 
       <form id='form' onSubmit={handleSubmit} noValidate>
         {isRegisterPage ? (<div className='form-field'>
-          <label className='form-field__label' for='name'>Имя</label>
+          <label className='form-field__label' htmlFor='name'>Имя</label>
           <input className='form-field__input' type='text' name='name' id='name' onChange={handleChange} required />
           <div className='form-field__message'></div>
         </div>) : ''}
         <div className='form-field'>
-          <label className='form-field__label' for='email'>E-mail</label>
+          <label className='form-field__label' htmlFor='email'>E-mail</label>
           <input className='form-field__input' type='email' name='email' id='email' onChange={handleChange} required />
           <div className='form-field__message'></div>
         </div>
         <div className='form-field'>
-          <label className='form-field__label' for='password'>Пароль</label>
+          <label className='form-field__label' htmlFor='password'>Пароль</label>
           <input className='form-field__input form-field__input_invalid' type='password' name='password' id='password' onChange={handleChange} required />
           {isRegisterPage ? (<div className='form-field__message'>При регистрации пользователя произошла ошибка</div>) : ''}
         </div>

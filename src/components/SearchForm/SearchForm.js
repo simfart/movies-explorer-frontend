@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./SearchForm.css";
 import { useForm } from "../../hooks/useForm";
-import { ERRSEARCH } from "../../utils/constants";
+import { ERRNOMOVIE } from "../../utils/constants";
 
 import FilterCheckbox from "./FilterCheckbox/FilterCheckbox";
 
@@ -14,9 +14,7 @@ function SearchForm({ toFindText, onCheckbox, isChecked }) {
   }, [setErrors, setIsValid, setValues]);
 
   function handleSubmit(e) {
-    // Запрещаем браузеру переходить по адресу формы
     e.preventDefault();
-    // Передаём значения управляемых компонентов во внешний обработчик
     if (!values || !values.film) {
       setIsValid(false);
     } else {
@@ -36,6 +34,7 @@ function SearchForm({ toFindText, onCheckbox, isChecked }) {
             onChange={handleChange}
             onBlur={lostInputFocus}
             name="film"
+            type="text"
             required
           />
         </fieldset>
@@ -48,7 +47,7 @@ function SearchForm({ toFindText, onCheckbox, isChecked }) {
           Найти
         </button>
       </form>
-      <div className="form-field__message">{isValid ? "" : ERRSEARCH}</div>
+      <div className="form-field__message">{isValid ? "" : ERRNOMOVIE}</div>
       <FilterCheckbox onCheckbox={onCheckbox} isChecked={isChecked} />
     </section>
   );
