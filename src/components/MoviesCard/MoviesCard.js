@@ -1,30 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './MoviesCard.css';
 
-function MoviesCard({ movie, onSaveMovie, pass, isVis }) {
+function MoviesCard({ movie, onSaveMovie,onDeleteMovie, pass, isVis, savedMovies}) {
 
-  const [savedIcon, setSavedIcon] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
-  const cardSaveButtonClassName = (
-    `moviecard__btn ${savedIcon && 'moviecard__btn_active'}`
-  );
+  useEffect(() => {
+    if (savedMovies.some((i) => i.movieId === movie.id || i === movie.id )) {
+      setIsSaved(true)
+    } else {setIsSaved(false)}
+  }, [movie.id, savedMovies]);
 
   const movieDuration = (duration) => {
     return `${Math.floor(duration / 60)}ч ${duration % 60}м`
   }
 
-  function handleSaveBtnClick() {
-    setSavedIcon(!savedIcon)
-    onSaveMovie(movie)
-  }
+    function handleSave() {
+      onSaveMovie(movie) 
+    }
 
+    function handleDelete() {
+      onDeleteMovie(movie)
+    }
+  
+  // function handleSaveBtnClick() { isSaved? onDeleteMovie(movie) : onSaveMovie(movie) }
+  
   return (
     <figure className={`moviecard ${isVis && 'moviecard_visible'}`}>
       <div className='moviecard__conteiner'>
-        <img className='moviecard__photo' src={`https://api.nomoreparties.co${movie.image.url}`} alt={movie.nameRU} />
+        <a className='link moviecard__link' href={pass === 'Movies'? movie.trailerLink: movie.trailer } target="_blank" rel="noopener noreferrer">
+        <img className='moviecard__photo' src={pass === 'Movies'? `https://api.nomoreparties.co${movie.image.url}` : movie.image} alt={movie.nameRU} /></a>
         {pass === 'Movies'
-          ? (<button className={cardSaveButtonClassName} onClick={handleSaveBtnClick} type="button">Сохранить</button>)
-          : (<button className='moviecard__btn moviecard__btn_saved' type="button"></button>)}
+          ? (<button className={`moviecard__btn ${isSaved && 'moviecard__btn_active'}`} onClick={isSaved? handleDelete: handleSave} type="button">Сохранить</button>)
+          : (<button className='moviecard__btn moviecard__btn_saved' type="button" onClick={handleDelete} ></button>)}
       </div>
       <figcaption className='moviecard__description'>
         <span className='moviecard__title'>{movie.nameRU}</span>

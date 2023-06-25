@@ -8,8 +8,6 @@ import FilterCheckbox from "./FilterCheckbox/FilterCheckbox";
 function SearchForm({ toFindText, onCheckbox, isChecked }) {
   const { values, handleChange, setValues, isValid, setIsValid, setErrors } = useForm({});
 
-  // const [word, setWord] = useState('');
-
   useEffect(() => {
     setValues({film: JSON.parse(localStorage.getItem('textToFind'))});
     setIsValid(true);

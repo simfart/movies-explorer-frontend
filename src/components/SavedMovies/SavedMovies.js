@@ -6,7 +6,7 @@ import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import Footer from '../Footer/Footer';
 
-function SavedMovies({ loggedIn, openMenu, onCheckbox, movies, onSaveMovie, numberOfMovies }) {
+function SavedMovies({ loggedIn, openMenu, onCheckbox, movies, onSaveMovie,savedMovies, onDeleteMovie }) {
   return (
     <>
       <Header loggedIn={loggedIn} openMenu={openMenu} />
@@ -14,8 +14,8 @@ function SavedMovies({ loggedIn, openMenu, onCheckbox, movies, onSaveMovie, numb
         <SearchForm onCheckbox={onCheckbox} />
         <MoviesCardList
           movies={movies}
-          onSaveMovie={onSaveMovie}
-          numberOfMovies={numberOfMovies}
+           savedMovies={savedMovies}    
+          onDeleteMovie={onDeleteMovie}
         />
       </main>
       <Footer />

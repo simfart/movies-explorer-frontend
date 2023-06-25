@@ -2,7 +2,9 @@ import React from 'react';
 import Header from '../Header/Header';
 import './Profile.css';
 
-function Profile({ loggedIn, openMenu }) {
+function Profile({ loggedIn, openMenu, logOut }) {
+
+  
   return (
     <>
       <Header loggedIn={loggedIn} openMenu={openMenu} />
@@ -38,7 +40,7 @@ function Profile({ loggedIn, openMenu }) {
         <button className="btn profile__btn" type="submit" aria-label="Редактировать">
           Редактировать
         </button>
-        <button className="btn profile__btn" type="submit" aria-label="Выйти">
+        <button className="btn profile__btn" onClick={logOut} type="button" aria-label="Выйти">
           Выйти из аккаунта
         </button>
 

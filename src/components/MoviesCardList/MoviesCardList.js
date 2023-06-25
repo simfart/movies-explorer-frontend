@@ -4,7 +4,7 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import useScreenWidth from '../../hooks/useScreenWidth';
 import { breakpointMiddle, breakpointSmall } from '../../utils/constants';
 
-function MoviesCardList({ movies, onSaveMovie, pass}) {
+function MoviesCardList({ movies, onSaveMovie, onDeleteMovie, pass, savedMovies, isSavedButton}) {
   const [numAddMovies, setNumAddMovies] = useState()
   const [numVisMovies, setNumVisMovies] = useState()
   const [visMovies, setVisMovies] = useState([])
@@ -32,16 +32,36 @@ function MoviesCardList({ movies, onSaveMovie, pass}) {
     setVisMovies(movies.slice(0, numVisMovies))
   }, [movies, numVisMovies])
 
+  // function checkingSave(savedMovies, movie) {
+  //   return savedMovies.find(i => i.movieId === movie.id)
+  // }
+
+  //  //* Сравнение фильмов и проверка на лайк
+  //  function getSavedMovieCard(savedMoviesList, movie) {
+  //   return savedMoviesList.find(savedMovie => savedMovie.movieId === movie.id)
+  // };
+
+    // useEffect(() => {
+  //   if (savedMovies.some((i) => i.movieId === movie.id || i === movie.id )) {
+  //   }
+  // }, [movie.id, savedMovies]);
+
+
   return (
     <section>
       <div className="cardlist">
         {
           visMovies.map((movieItem) => (
             <MoviesCard
-              onSaveMovie={onSaveMovie}
               movie={movieItem}
-              key={movieItem.id}
+              // isSaved={checkingSave(savedMovies, movieItem)}
+              savedMovies={savedMovies}
               pass={pass}
+              onSaveMovie={onSaveMovie}
+              onDeleteMovie={onDeleteMovie}
+              isSavedButton={isSavedButton}
+              key={movieItem.id||movieItem._id}
+             
             />
           )
           )}
