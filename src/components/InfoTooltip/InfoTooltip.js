@@ -1,6 +1,4 @@
 import React from 'react';
-// import union from '../images/Union.svg';
-// import unionred from '../images/Union-red.svg';
 
 import './InfoTooltip.css'
 

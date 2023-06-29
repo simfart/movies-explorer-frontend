@@ -5,12 +5,15 @@ import { ERRNOMOVIE } from "../../utils/constants";
 
 import FilterCheckbox from "./FilterCheckbox/FilterCheckbox";
 
-function SearchForm({ toFindText, onCheckbox, isChecked }) {
+function SearchForm({ onFormSubmit, onCheckbox, isChecked, pass }) {
+
   const { values, handleChange, setValues, isValid, setIsValid, setErrors } = useForm({});
 
   useEffect(() => {
-    setValues({film: JSON.parse(localStorage.getItem('textToFind'))});
     setIsValid(true);
+    if (pass === 'Movies') {
+      setValues({ film: JSON.parse(localStorage.getItem('textToFind')) });
+    }
   }, [setErrors, setIsValid, setValues]);
 
   function handleSubmit(e) {
@@ -18,7 +21,7 @@ function SearchForm({ toFindText, onCheckbox, isChecked }) {
     if (!values || !values.film) {
       setIsValid(false);
     } else {
-      toFindText(values.film.toLowerCase());
+      onFormSubmit(values.film.toLowerCase());
     }
   }
   const lostInputFocus = () => setIsValid(true);
@@ -30,7 +33,7 @@ function SearchForm({ toFindText, onCheckbox, isChecked }) {
           <input
             value={values.film || ''}
             className="searchform__input"
-            placeholder="Фильм"            
+            placeholder="Фильм"
             onChange={handleChange}
             onBlur={lostInputFocus}
             name="film"

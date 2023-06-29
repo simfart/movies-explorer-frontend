@@ -33,10 +33,16 @@ function App() {
 
   const [allmovies, setAllMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
+  const [savedMoviesToFilter, setSavedMoviesToFilter] = useState([]);
+  const [searchTextInSaved, setsearchTextInSaved]=useState()
+  
   const [numberAllMovies, setNumberAllMovies] = useState(0);
-  const [selectedCard, setSelectedCard] = useState('');
-  const [filteredMoviesByText, setFilteredMoviesByText] = useState([]);
-  const [filteredByCheckBox, setFilteredByCheckBox] = useState([]);
+  const [filterMoviesByText, setFilterMoviesByText] = useState([]);
+  const [filterMovieByCheckBox, setFilterMovieByCheckBox] = useState([]);
+
+  const [filterSavedMoviesByText, setFilterSavedMoviesByText] = useState([]);
+  const [filterSavedMovieByCheckBox, setFilterSavedMovieByCheckBox] = useState([]);
+  
   const [checkbox, setCheckbox] = useState(false);
 
   const [messagePopup, setMessagePopup] = useState('');
@@ -44,6 +50,12 @@ function App() {
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [isSavedMovie, setIsSavedMovie] = useState(false);
 
+  const showInfoTooltip = useCallback(() => setIsInfoTooltipOpen(true), [])
+
+  const setPopupMessage = useCallback(
+    (message) => setMessagePopup(message),
+    []
+  );
 
   // Data API
   useEffect(() => {
@@ -52,6 +64,7 @@ function App() {
         .then(([resUserInfo, resMovies]) => {
           setCurrentUser(resUserInfo);
           setSavedMovies(resMovies);
+          setSavedMoviesToFilter(resMovies)
         })
         .catch((err) => {
           console.log(err);
@@ -119,17 +132,17 @@ function App() {
 
   useEffect(() => {
     checkbox
-      ? setNumberAllMovies(filteredByCheckBox.length)
-      : setNumberAllMovies(filteredMoviesByText.length)
-  }, [checkbox, filteredByCheckBox, filteredMoviesByText])
+      ? setNumberAllMovies(filterMovieByCheckBox.length)
+      : setNumberAllMovies(filterMoviesByText.length)
+  }, [checkbox, filterMovieByCheckBox, filterMoviesByText])
 
   // from local Storage movies & checkbox
   useEffect(() => {
     const moviesState = JSON.parse(localStorage.getItem('filmsFilterByText'))
     const checkboxState = JSON.parse(localStorage.getItem('checkbox'))
-    moviesState ? setFilteredMoviesByText(moviesState) : setFilteredMoviesByText([])
+    moviesState ? setFilterMoviesByText(moviesState) : setFilterMoviesByText([])
     checkboxState ? setCheckbox(checkboxState) : setCheckbox(false)
-  }, [setFilteredMoviesByText, setCheckbox])
+  }, [setFilterMoviesByText, setCheckbox])
 
 
   // time filtering with a checkbox
@@ -138,37 +151,34 @@ function App() {
       const filmsFilterByTime = movies.filter(function (film) {
         return film.duration <= 40
       })
-      setFilteredByCheckBox(filmsFilterByTime)
+      setFilterMovieByCheckBox(filmsFilterByTime)
+      setFilterSavedMovieByCheckBox(filmsFilterByTime)
       localStorage.setItem("checkbox", JSON.stringify(checkbox));
     }
   }
 
-  // checkbox listener
-  useEffect(() => {
-    filterCheckbox(filteredMoviesByText)
-  }, [checkbox]);
-
   // checkbox btn
-  function onCheckbox() {
+  function onCheckbox() { 
     setCheckbox(!checkbox)
-    filterCheckbox(filteredMoviesByText)
+    filterCheckbox(filterMoviesByText)
     localStorage.setItem("checkbox", JSON.stringify(!checkbox));
   }
 
-  // btn to search
+  const  filmsFilterMovies =(mas, text) => mas.filter(function (film) {
+    return film.nameRU.toLowerCase().includes(text)
+  });
+
+  // btn to search in Movies page
   function toSearchMovies(textToFind) {
     setPreloader(true)
     moviesApi.getMovies()
       .then((movies) => {
-        console.log(movies)
-        const filmsFilterByText = movies.filter(function (film) {
-          return film.nameRU.toLowerCase().includes(textToFind)
-        });
+        const filmsFilterByText = filmsFilterMovies(movies, textToFind )
         if (filmsFilterByText.length === 0) {
           setIsInfoTooltipOpen(true)
           setMessagePopup(ERRNOMOVIE)
         } else {
-          setFilteredMoviesByText(filmsFilterByText)
+          setFilterMoviesByText(filmsFilterByText)
           localStorage.setItem("filmsFilterByText", JSON.stringify(filmsFilterByText));
           localStorage.setItem("textToFind", JSON.stringify(textToFind));
           filterCheckbox(filmsFilterByText)
@@ -217,53 +227,60 @@ function App() {
     setIsInfoTooltipOpen(false)
   }
 
-// console.log('savedMovies in app.js', savedMovies)
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
         {/* <Header loggedIn={loggedIn} openMenu={openMenu}/> */}
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/movies" element={
-            <Movies
-              movies={checkbox ? filteredByCheckBox : filteredMoviesByText}
-              onSaveMovie={onSaveMovie}
-              onDeleteMovie={onDeleteMovie}
-              onCheckbox={onCheckbox}
-              openMenu={openMenu}
-              loggedIn={loggedIn}
-              toFindText={toSearchMovies}
-              isChecked={checkbox}
-              savedMovies={savedMovies}
-
-            />}
+          <Route
+            path="/movies"
+            element={
+              <Movies
+                movies={checkbox ? filterMovieByCheckBox : filterMoviesByText}
+                onSaveMovie={onSaveMovie}
+                onDeleteMovie={onDeleteMovie}
+                onCheckbox={onCheckbox}
+                openMenu={openMenu}
+                loggedIn={loggedIn}
+                toFindText={toSearchMovies}
+                isChecked={checkbox}
+                savedMovies={savedMovies}
+              />
+            }
           />
-          <Route path="/saved-movies" element={
-            <SavedMovies
-              movies={savedMovies}
-              // numberOfMovies={savedmovies}
-              // onSaveMovie={selectMovie}
-              openMenu={openMenu}
-              loggedIn={loggedIn}
-              onCheckbox={onCheckbox}
-              savedMovies={savedMovies}
-              onDeleteMovie={onDeleteMovie}
-
-            />} />
-          <Route path="/profile" element={<Profile
-            openMenu={openMenu}
-            loggedIn={loggedIn}
-            logOut={logOut}
-          />} />
+          <Route
+            path="/saved-movies"
+            element={
+              <SavedMovies
+                showTooltip={showInfoTooltip}
+                setPopupMessage={setPopupMessage}
+                openMenu={openMenu}
+                loggedIn={loggedIn}
+                // onCheckbox={onCheckbox}
+                savedMovies={savedMovies}
+                onDeleteMovie={onDeleteMovie}
+              />
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <Profile
+                openMenu={openMenu}
+                loggedIn={loggedIn}
+                logOut={logOut}
+              />
+            }
+          />
           <Route path="/signin" element={<Login toLogin={handleLogin} />} />
-          <Route path="/signup" element={<Register toRegister={handleRegister} />} />
+          <Route
+            path="/signup"
+            element={<Register toRegister={handleRegister} />}
+          />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-        <Navigation
-          menuOpened={menuOpened}
-          onClose={openMenu}
-        />
+        <Navigation menuOpened={menuOpened} onClose={openMenu} />
         <InfoTooltip
           isOpen={isInfoTooltipOpen}
           onClose={onCloseInfoTooltip}
