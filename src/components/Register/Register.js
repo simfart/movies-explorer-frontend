@@ -4,26 +4,7 @@ import { useForm } from '../../hooks/useForm';
 
 import './Register.css';
 
-function Register({toRegister}) {
-
-  const { values, handleChange, setValues, isValid, setIsValid, errors, setErrors } = useForm({});
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    toRegister
-    ({   
-      name: values.name,
-      email: values.email,
-      password: values.password
-    });
-  }
-
-  React.useEffect(() => {
-    setValues({});
-    setErrors({});
-    setIsValid(true)
-  }, [setValues, setErrors, setIsValid]);
-
+function Register({handleRegister, errMessage}) {
 
   return (
     <Form
@@ -31,8 +12,10 @@ function Register({toRegister}) {
       isRegisterPage={true}
       btnName={'Зарегистрироваться'}
       linkText={'Уже зарегистрированы?'}
-      handleSubmit={handleSubmit}
-      handleChange={handleChange}
+      formSubmit={handleRegister}
+      pass={'/signin'}
+      linkName={'Войти'}
+      errMessage={errMessage}
     />
   );
 }

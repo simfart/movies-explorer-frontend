@@ -1,51 +1,100 @@
-import React from 'react';
-import Header from '../Header/Header';
-import './Profile.css';
+import React, {useCallback} from "react";
+import { useForm } from "../../hooks/useForm";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import Header from "../Header/Header";
+import "./Profile.css";
 
-function Profile({ loggedIn, openMenu, logOut }) {
+function Profile({ logOut, onSubmitEdit, errMessage, loggedIn, openMenu }) {
+  const {
+    values,
+    handleChange,
+    setValues,
+    isValid,
+    setIsValid,
+    errors,
+    setErrors,
+  } = useForm({});
 
-  
+  const currentUser = React.useContext(CurrentUserContext);
+
+  React.useEffect(() => {
+    setValues({
+      name: currentUser.name,
+      email: currentUser.email,
+    });
+    setErrors({});
+    setIsValid(true);
+  }, [currentUser, setValues, setErrors, setIsValid]);
+
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+    onSubmitEdit({
+      name: values.name,
+      email: values.email,
+    });
+  }, [onSubmitEdit, values.email, values.name])
+
+
   return (
     <>
       <Header loggedIn={loggedIn} openMenu={openMenu} />
-      <form className="profile">
-        <h2 className="profile__title ">Привет, Виталий!</h2>
+
+      <form className="profile" onSubmit={handleSubmit} noValidate>
+        <h2 className="profile__title ">{`Привет, ${values.name} !`}</h2>
         <fieldset className="profile__info">
           <div className="profile__field">
-            <label class="profile__field-label" for="name">Имя</label>
+            <label className="profile__field-label" htmlFor="name">
+              Имя
+            </label>
             <input
-              value='Виталий'
+              value={values.name || ''}
+              pattern="^[a-zA-ZА-Яа-яЁё\s\-]+$"
               type="text"
-              className='profile__field-input'
+              className={`profile__field-input ${errors?.name && 'profile__field-input_invalid'
+                }`}
+              onChange={handleChange}
               name="name"
               minLength="2"
               maxLength="40"
               required
             />
-            <div class="profile__field-message"></div>
           </div>
-          <div className='profile__line' />
+          <div className='profile__message'>{errors.name || ''}</div>
+          <div className="profile__line" />
           <div className="profile__field">
-            <label class="text-field-label" for="email">E-mail</label>
+            <label className="text-field-label" htmlFor="email">
+              E-mail
+            </label>
             <input
-              value='pochta@yandex.ru'
-              type="email"
-              className='profile__field-input'
-              name="email"
+              className={`profile__field-input ${errors?.email && 'profile__field-input_invalid'
+                }`}
+              type='email'
+              name='email'
+              id='email'
+              onChange={handleChange}
+              value={values.email || ''}
               required
             />
           </div>
-          <div class="profile__field-message"></div>
+          <div className='profile__message'>{errors.email || ''}</div>
         </fieldset>
-        <button className="btn profile__btn" type="submit" aria-label="Редактировать">
+        <div className='profile__message'>{errMessage}</div>
+        <button
+          className={`btn profile__btn ${isValid ? '' : 'btn_invalid'}`}
+          type='submit'
+          aria-label="Редактировать"
+        >
           Редактировать
         </button>
-        <button className="btn profile__btn" onClick={logOut} type="button" aria-label="Выйти">
+        <button
+          className="btn profile__btn"
+          onClick={logOut}
+          type="button"
+          aria-label="Выйти"
+        >
           Выйти из аккаунта
         </button>
-
       </form>
-
     </>
   );
 }

@@ -5,11 +5,11 @@ import AboutProject from './AboutProject/AboutProject';
 import Techs from './Techs/Techs';
 import AboutMe from './AboutMe/AboutMe';
 import Portfolio from './Portfolio/Portfolio';
-import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 import './Main.css'
 
-function Main() {
+function Main({loggedIn, openMenu}) {
 
   const aboutProjectnClickRef = useRef(null);
   const techsOnClickRef = useRef(null);
@@ -17,7 +17,7 @@ function Main() {
 
   return (
     <>
-      <Header loggedIn={false} />
+    <Header loggedIn={loggedIn} openMenu={openMenu} />
       <main>
         <Promo
           aboutProjectnClickRef={aboutProjectnClickRef}

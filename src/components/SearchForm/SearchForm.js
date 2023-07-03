@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./SearchForm.css";
 import { useForm } from "../../hooks/useForm";
-import { ERRNOMOVIE } from "../../utils/constants";
+import { ERR_KEY_WORD } from "../../utils/constants";
 
 import FilterCheckbox from "./FilterCheckbox/FilterCheckbox";
 
@@ -12,9 +12,9 @@ function SearchForm({ onFormSubmit, onCheckbox, isChecked, pass }) {
   useEffect(() => {
     setIsValid(true);
     if (pass === 'Movies') {
-      setValues({ film: JSON.parse(localStorage.getItem('textToFind')) });
+      setValues({ film: localStorage.getItem('search') });
     }
-  }, [setErrors, setIsValid, setValues]);
+  }, [pass, setErrors, setIsValid, setValues]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -50,7 +50,7 @@ function SearchForm({ onFormSubmit, onCheckbox, isChecked, pass }) {
           Найти
         </button>
       </form>
-      <div className="form-field__message">{isValid ? "" : ERRNOMOVIE}</div>
+      <div className="searchform__message">{isValid ? "" : ERR_KEY_WORD}</div>
       <FilterCheckbox onCheckbox={onCheckbox} isChecked={isChecked} />
     </section>
   );

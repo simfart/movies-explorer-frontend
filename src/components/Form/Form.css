@@ -71,12 +71,13 @@
   color: #ee3465;
 }
 
-.form-field__message {
+.message {
   font-size: 10px;
   line-height: 12px;
   color: #ee3465;
   width: 100%;
   margin-top: 10px;
+  text-align: center;
 }
 
 .form__btn {
@@ -93,24 +94,40 @@
   background-color: #4285f4;
   border: none;
   border-radius: 3px;
-  margin: 161px auto 16px;
+  margin: 20px auto 16px;
 }
 
 @media screen and (max-width: 625px) {
   .form__btn {
-    margin: 249px 0 14px;
+    margin-bottom: 14px;
     font-size: 12px;
   }
 }
 
-.form__btn_register {
+.form__err {
+  text-align: center;
+  margin-top: 161px;
+}
+
+@media screen and (max-width: 625px) {
+  .form__err {
+    margin-top: 249px;
+  }
+}
+
+.form__err_register {
   margin-top: 49px;
 }
 
 @media screen and (max-width: 625px) {
-  .form__btn_register {
+  .form__err_register {
     margin-top: 139px;
   }
+}
+
+.btn_invalid {
+  opacity: 0.800000011920929;
+  pointer-events: none;
 }
 
 .form__inputs {

@@ -95,6 +95,16 @@
   background-color: #202020;
   background-clip: padding-box;
   text-align: end;
+  border: none;
+  outline: none
+}
+
+.profile__field-input:focus{
+  border: 1px solid #424242;
+}
+
+.profile__field-input_invalid{
+  color: #ee3465;
 }
 
 .profile__line {

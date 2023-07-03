@@ -1,74 +1,40 @@
-import React, {useState, useCallback, useEffect} from 'react';
-import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import Header from "../Header/Header";
-import SearchForm from "../SearchForm/SearchForm";
-import Footer from "../Footer/Footer";
-import { ERRNOMOVIE } from '../../utils/constants';
+import React, { useState, useCallback, useEffect } from 'react';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import SearchForm from '../SearchForm/SearchForm';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import { ERR_NO_MOVIE } from '../../utils/constants';
+import useMoviesFilter from '../../hooks/useMoviesFilter';
 
 import './SavedMovies.css';
 
 function SavedMovies({
-  loggedIn,
-  openMenu,
   savedMovies,
   onDeleteMovie,
   showTooltip,
   setPopupMessage,
+  loggedIn,
+  openMenu,
 }) {
-  const [filteredMovies, setFilteredMovies] = useState([]);
   const [isShortFilm, setIsShortFilm] = useState(false);
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState('');
 
-  useEffect(() => {
-    if (savedMovies) {
-      setFilteredMovies(filterMovies(savedMovies, search, isShortFilm));
-    }
-  }, [savedMovies])
-
-  const filterMovies = useCallback((movies, text, isShort) => {
-    let result = movies;
-
-    if (text) {
-      result = result.filter((movie) =>
-        movie.nameRU.toLowerCase().includes(text)
-      );
-    }
-
-    if (isShort) {
-      result = result.filter((movie) => movie.duration <= 40);
-    }
-
-    return result;
-  }, []);
+  const filteredMovies = useMoviesFilter(savedMovies, search, isShortFilm);
 
   const isShortFilmChange = useCallback(() => {
-    const newValue = !isShortFilm;
+    setIsShortFilm((prev) => !prev);
+  }, []);
 
-    setFilteredMovies(filterMovies(savedMovies, search, newValue));
-    setIsShortFilm(newValue);
-  }, [filterMovies, savedMovies, search, isShortFilm])
+  useEffect(() => {
+    if (!filteredMovies.length && !search) {
+      setPopupMessage(ERR_NO_MOVIE);
+      showTooltip();
+    }
+  }, [filteredMovies, search, setPopupMessage, showTooltip]);
 
-  const onSubmitSearch = useCallback(
-    (search) => {
-      setSearch(search)
-      const filteredFilms = filterMovies(savedMovies, search, isShortFilm);
-
-      if (filteredFilms.length === 0) {
-        setPopupMessage(ERRNOMOVIE);
-        showTooltip();
-      } else {
-        setFilteredMovies(filteredFilms);
-      }
-    },
-    [
-      savedMovies,
-      showTooltip,
-      setPopupMessage,
-      setFilteredMovies,
-      filterMovies,
-      isShortFilm
-    ]
-  );
+  const onSubmitSearch = useCallback((search) => {
+    setSearch(search);
+  }, []);
 
   return (
     <>

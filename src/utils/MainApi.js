@@ -1,3 +1,5 @@
+import { BASE_URL } from "./constants";
+
 class MainApi {
   constructor(options) {
     this._baseUrl = options.baseUrl;
@@ -8,7 +10,7 @@ class MainApi {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Ошибка: ${res.status}`);
+    return res.json().then((err) => Promise.reject(err));
   }
 
   _request(url, options) {
@@ -43,14 +45,6 @@ class MainApi {
     });
   }
 
-  setLikes(idCard, isLiked) {
-    return this._request(`${this._baseUrl}/cards/${idCard}/likes/`, {
-      method: isLiked ? "PUT" : "DELETE",
-      headers: this._headers,
-      credentials: "include",
-    });
-  }
-
   deleteMovie(_id) {
     return this._request(`${this._baseUrl}/movies/${_id}/`, {
       method: "DELETE",
@@ -73,29 +67,24 @@ class MainApi {
       credentials: "include",
       body: JSON.stringify({
         name: data.name,
-        about: data.about,
+        email: data.email,
       }),
     });
   }
 
-  editAvatar(data) {
-    return this._request(`${this._baseUrl}/users/me/avatar/`, {
-      method: "PATCH",
+  logout(){
+    return this._request(`${this._baseUrl}/signout/`, {
+      method: "GET",
       headers: this._headers,
       credentials: "include",
-      body: JSON.stringify({
-        avatar: data.avatar,
-      }),
-    });
+        });
   }
 }
-const token = localStorage.getItem("jwt");
+
 const mainApi = new MainApi({
-  baseUrl: "http://localhost:3000",
+  baseUrl: BASE_URL,
   credentials: "include",
-  mode: 'no-cors',
   headers: {
-    authorization: `Bearer ${token}`,
     "Content-Type": "application/json",
   },
 });

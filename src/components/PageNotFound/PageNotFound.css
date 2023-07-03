@@ -47,8 +47,9 @@
   }
 }
 
-.not-found__link {
-  text-decoration: none;
+.not-found__btn {
+border: none;
+background-color: #202020;;
   font-size: 14px;
   line-height: 17px;
   color: #4285f4;

@@ -15,7 +15,6 @@
 
   .popup__info {
     width: 430px;
-    height: 330px;
     background-color: #202020;
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
@@ -28,22 +27,8 @@
     align-items: center;
     position: relative;
   }
-
-  .header__logo {
-    max-width: 142px;
-    margin-bottom: 36px;
-  }
-  
-  @media screen and (max-width: 600px) {
-    .header__logo {
-      padding-left: 27px;
-      max-width: 104px;
-      margin-bottom: 26px;
-    }
-  }
-
   .popup__title {
-    font-weight: 900;
+    font-weight: 500;
     font-size: 24px;
     line-height: 29px;
     margin: 0;
@@ -57,11 +42,6 @@
       line-height: 22px;
     }
   }
-
-  /* .popup__title_info {
-    color: #ffffff;
-    text-align: center;
-  } */
 
   .popup__close {
     width: 32px;
@@ -84,7 +64,6 @@
     transition-delay: 0s;
   }
   
-
   .popup__close:hover {
     opacity: 0.6;
   }
@@ -100,3 +79,74 @@
     }
   }
   
+
+  .alert {
+    position: relative;
+    top: 10;
+    left: 0;
+    width: auto;
+    height: auto;
+    padding: 10px;
+    margin: 10px;
+    line-height: 1.8;
+    border-radius: 5px;
+    cursor: hand;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-weight: 400;
+  }
+  
+  .alertCheckbox {
+    display: none;
+  }
+  
+  :checked + .alert {
+    display: none;
+  }
+  
+  .alertText {
+    display: table;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 16px;
+  }
+  
+  .alertClose {
+    float: right;
+    padding-top: 5px;
+    font-size: 10px;
+  }
+  
+  .clear {
+    clear: both;
+  }
+  
+  .info {
+    background-color: #EEE;
+    border: 1px solid #DDD;
+    color: #999;
+  }
+  
+  .success {
+    background-color: #EFE;
+    border: 1px solid #DED;
+    color: #9A9;
+  }
+  
+  .notice {
+    background-color: #EFF;
+    border: 1px solid #DEE;
+    color: #9AA;
+  }
+  
+  .warning {
+    background-color: #FDF7DF;
+    border: 1px solid #FEEC6F;
+    color: #C9971C;
+  }
+  
+  .error {
+    background-color: #FEE;
+    border: 1px solid #EDD;
+    color: #A66;
+  }

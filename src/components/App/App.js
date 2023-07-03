@@ -1,289 +1,300 @@
 import React from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import { useEffect, useState, useCallback } from "react";
+import { Route, Routes, useNavigate, Navigate, Outlet } from 'react-router-dom';
+import { useEffect, useState, useCallback } from 'react';
 
-import * as auth from "../../utils/Auth";
+import * as auth from '../../utils/Auth';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import moviesApi from '../../utils/MoviesApi.js';
 import mainApi from '../../utils/MainApi';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
-import Register from '../Register/Register'
+import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
 import Navigation from '../Navigation/Navigation';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import Preloader from '../Movies/Preloader/Preloader';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
+import ProtectedRoute from '../../utils/ProtectedRoute';
 
-import { ERRSEARCH, ERRNOMOVIE, ERRWORDSEARCH } from '../../utils/constants';
+import { ERR_SEARCH } from '../../utils/constants';
 
-import './App.css'
+import './App.css';
 
 function App() {
   const navigate = useNavigate();
 
-  const [loggedIn, setLoggedIn] = useState(true);
-  // const [registered, setregistered] = useState();
+  const [loggedIn, setLoggedIn] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
 
   const [menuOpened, setmenuOpened] = useState(false);
-  const [preloader, setPreloader] = useState(false)
+  const [preloader, setPreloader] = useState(false);
 
-  const [allmovies, setAllMovies] = useState([]);
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    if (loggedIn) {
+      setPreloader(true);
+      moviesApi
+        .getMovies()
+        .then((movies) => {
+          setMovies(movies);
+        })
+        .catch((err) => {
+          setIsInfoTooltipOpen(true);
+          setMessagePopup(ERR_SEARCH);
+          console.log(err);
+        })
+        .finally(() => {
+          setPreloader(false);
+        });
+    }
+  }, [loggedIn]);
+
   const [savedMovies, setSavedMovies] = useState([]);
-  const [savedMoviesToFilter, setSavedMoviesToFilter] = useState([]);
-  const [searchTextInSaved, setsearchTextInSaved]=useState()
-  
-  const [numberAllMovies, setNumberAllMovies] = useState(0);
-  const [filterMoviesByText, setFilterMoviesByText] = useState([]);
-  const [filterMovieByCheckBox, setFilterMovieByCheckBox] = useState([]);
-
-  const [filterSavedMoviesByText, setFilterSavedMoviesByText] = useState([]);
-  const [filterSavedMovieByCheckBox, setFilterSavedMovieByCheckBox] = useState([]);
-  
-  const [checkbox, setCheckbox] = useState(false);
-
   const [messagePopup, setMessagePopup] = useState('');
+  const [errMessage, setErrMessage] = useState('');
 
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
-  const [isSavedMovie, setIsSavedMovie] = useState(false);
 
-  const showInfoTooltip = useCallback(() => setIsInfoTooltipOpen(true), [])
+  const showInfoTooltip = useCallback(() => setIsInfoTooltipOpen(true), []);
+  const closeInfoTooltip = useCallback(() => setIsInfoTooltipOpen(false), []);
 
   const setPopupMessage = useCallback(
     (message) => setMessagePopup(message),
-    []
+    [],
   );
 
   // Data API
   useEffect(() => {
     if (loggedIn) {
-      Promise.all([mainApi.getInitialUserInfo(), mainApi.getInitialUserMovies()])
+      Promise.all([
+        mainApi.getInitialUserInfo(),
+        mainApi.getInitialUserMovies(),
+      ])
         .then(([resUserInfo, resMovies]) => {
-          setCurrentUser(resUserInfo);
+          setCurrentUser(resUserInfo.data);
           setSavedMovies(resMovies);
-          setSavedMoviesToFilter(resMovies)
         })
         .catch((err) => {
           console.log(err);
+          showInfoTooltip();
+          setPopupMessage(err.message);
+        })
+        .finally(() => {
+          setPreloader(false);
         });
     }
-  }, [loggedIn]);
-
-
-  // Registration
-  const handleRegister = useCallback(
-    (values) => {
-      auth
-        .register(values)
-        .then((res) => {
-          handleLogin({
-            email: values.email,
-            password: values.password
-          })
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }, []);
+  }, [loggedIn, setLoggedIn, setPopupMessage, showInfoTooltip]);
 
   // Login
   const handleLogin = useCallback(
-    (values) => {
-      auth
-        .authorize(values.email, values.password)
-        .then((res) => {
-          if (!res) {
-            throw new Error("Ошибка аутентификации");
-          }
-          if (res.token) {
-            localStorage.setItem("jwt", res.token);
-            setLoggedIn(true);
-            // setUserEmail(values.email);
-            navigate("/movies", { replace: true });
-          }
-        })
-    }, [navigate]);
+    async (values) => {
+      try {
+        const { token } = await auth.authorize(values.email, values.password);
+        console.log( token)
+        if (!token) {
+          throw new Error('Ошибка аутентификации');
+        } else {
+          setLoggedIn(true);
+          setErrMessage('');
+          navigate('/movies', { replace: true });
+        }
+      } catch (err) {
+        console.log(err);
+        setErrMessage(err.message);
+      }
+    },
+    [navigate, setLoggedIn],
+  );
+
+  // Registration
+  const handleRegister = useCallback(
+    async (values) => {
+      try {
+        await auth.register(values)
+        handleLogin({
+          email: values.email,
+          password: values.password,
+        });
+      } catch (err) {
+        console.log(err);
+        setErrMessage(err.message);
+      }
+    },
+    [handleLogin],
+  );
 
   // Log out
-  const logOut = useCallback(
-    async (values) => {
-      localStorage.removeItem("jwt");
+  const logOut = useCallback(async () => {
+    try {
+      await mainApi.logout()
+      navigate('/', { replace: true });
       setLoggedIn(false);
-      // setUserEmail("");
-      const res = await auth.logout().catch((err) => {
-        console.log(err);
-        return true;
-      });
-      if (!res) {
-        throw new Error("Ошибка : Выйти не получилось");
+      localStorage.clear();
+    } catch (err) {
+      console.log(err);
+      showInfoTooltip();
+      setPopupMessage(err.message);
+    } finally {
+      setPreloader(false);
+    }
+  }, [navigate, setPopupMessage, showInfoTooltip]);
+
+  // Token Check
+  const checkToken = useCallback(async () => {
+    setPreloader(true);
+    try {
+      const res = await auth.checkToken()
+      if (res) {
+        setLoggedIn(true);
       }
-      // setIsLoad(false);
-    },
-    [navigate]
-  );
+    } catch (err) {
+      console.log(err);
+      setPopupMessage(err.message);
+      setLoggedIn(false);
+    } finally {
+      setPreloader(false);
+    }
+  }, []);
+
+
+  useEffect(() => {
+    checkToken();
+  }, [checkToken]);
+
+  // editing a profile
+  const editUser = useCallback(async (values) => {
+    setPreloader(true);
+    try {
+      const res = await mainApi.editlUserInfo(values)
+      setCurrentUser(res.data);
+      setErrMessage('');
+    } catch (err) {
+      console.log(err);
+      setErrMessage(err.message);
+    } finally {
+      setPreloader(false);
+    }
+  }, [])
 
   // burger menu
   const openMenu = useCallback(() => {
     setmenuOpened(!menuOpened);
   }, [menuOpened]);
 
-  useEffect(() => {
-    checkbox
-      ? setNumberAllMovies(filterMovieByCheckBox.length)
-      : setNumberAllMovies(filterMoviesByText.length)
-  }, [checkbox, filterMovieByCheckBox, filterMoviesByText])
-
-  // from local Storage movies & checkbox
-  useEffect(() => {
-    const moviesState = JSON.parse(localStorage.getItem('filmsFilterByText'))
-    const checkboxState = JSON.parse(localStorage.getItem('checkbox'))
-    moviesState ? setFilterMoviesByText(moviesState) : setFilterMoviesByText([])
-    checkboxState ? setCheckbox(checkboxState) : setCheckbox(false)
-  }, [setFilterMoviesByText, setCheckbox])
-
-
-  // time filtering with a checkbox
-  function filterCheckbox(movies) {
-    if (checkbox) {
-      const filmsFilterByTime = movies.filter(function (film) {
-        return film.duration <= 40
-      })
-      setFilterMovieByCheckBox(filmsFilterByTime)
-      setFilterSavedMovieByCheckBox(filmsFilterByTime)
-      localStorage.setItem("checkbox", JSON.stringify(checkbox));
+  const onSaveMovie = useCallback(async (movie) => {
+    try {
+      const savedMovie = await mainApi.saveMovie(movie)
+      setSavedMovies([savedMovie, ...savedMovies]);
+    } catch (err) {
+      console.log(err);
     }
-  }
+  }, [savedMovies])
 
-  // checkbox btn
-  function onCheckbox() { 
-    setCheckbox(!checkbox)
-    filterCheckbox(filterMoviesByText)
-    localStorage.setItem("checkbox", JSON.stringify(!checkbox));
-  }
 
-  const  filmsFilterMovies =(mas, text) => mas.filter(function (film) {
-    return film.nameRU.toLowerCase().includes(text)
-  });
+  const onDeleteMovie = useCallback(async (movie) => {
 
-  // btn to search in Movies page
-  function toSearchMovies(textToFind) {
-    setPreloader(true)
-    moviesApi.getMovies()
-      .then((movies) => {
-        const filmsFilterByText = filmsFilterMovies(movies, textToFind )
-        if (filmsFilterByText.length === 0) {
-          setIsInfoTooltipOpen(true)
-          setMessagePopup(ERRNOMOVIE)
-        } else {
-          setFilterMoviesByText(filmsFilterByText)
-          localStorage.setItem("filmsFilterByText", JSON.stringify(filmsFilterByText));
-          localStorage.setItem("textToFind", JSON.stringify(textToFind));
-          filterCheckbox(filmsFilterByText)
-        }
-      })
-      .catch((err) => {
-        setIsInfoTooltipOpen(true)
-        setMessagePopup(ERRSEARCH)
-        console.log(err);
-      })
-      .finally(() => {
-        setPreloader(false)
-      })
-  }
+    try {
+      const selectedMovie = savedMovies.find(
+        (i) => i.movieId === (movie.id || movie.movieId),
+      );
+      await mainApi.deleteMovie(selectedMovie._id)
+      const filtered = savedMovies.filter(
+        (newCard) => newCard.movieId !== (movie.id || movie.movieId),
+      );
+      setSavedMovies(filtered);
+
+    } catch (err) {
+      console.log(err);
+    }
+  },[savedMovies])
 
   if (preloader) {
     return <Preloader />;
   }
 
-  function onSaveMovie(movie) {
-    mainApi
-      .saveMovie(movie)
-      .then((savedMovie) => {
-        setSavedMovies([savedMovie, ...savedMovies])  
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  }
-
-  function onDeleteMovie(movie) {
-    // console.log(movie, movie)
-    const selectedMovie = savedMovies.find((i) => i.movieId === (movie.id||movie.movieId))
-    mainApi
-      .deleteMovie(selectedMovie._id)
-      .then(() => {
-        const filtered = savedMovies.filter((newCard) => newCard.movieId !== (movie.id||movie.movieId));
-        setSavedMovies(filtered);
-       })
-      .catch((err) => {
-        console.log(err);
-      })
-  }
-
-  function onCloseInfoTooltip() {
-    setIsInfoTooltipOpen(false)
-  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
-        {/* <Header loggedIn={loggedIn} openMenu={openMenu}/> */}
         <Routes>
-          <Route path="/" element={<Main />} />
           <Route
-            path="/movies"
+            path="/"
+            element={<Main loggedIn={loggedIn} openMenu={openMenu} />}
+          />
+          <Route element={<ProtectedRoute isloggedIn={loggedIn} showInfoTooltip={showInfoTooltip} />}>
+            <Route
+              path="/movies"
+              element={
+                <Movies
+                  loggedIn={loggedIn}
+                  openMenu={openMenu}
+                  onSaveMovie={onSaveMovie}
+                  onDeleteMovie={onDeleteMovie}
+                  savedMovies={savedMovies}
+                  showTooltip={showInfoTooltip}
+                  setPopupMessage={setPopupMessage}
+                  movies={movies}
+                />
+              }
+            />
+            <Route
+              path="/saved-movies"
+              element={
+                <SavedMovies
+                  showTooltip={showInfoTooltip}
+                  setPopupMessage={setPopupMessage}
+                  savedMovies={savedMovies}
+                  onDeleteMovie={onDeleteMovie}
+                  loggedIn={loggedIn}
+                  openMenu={openMenu}
+                />
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <Profile
+                  openMenu={openMenu}
+                  loggedIn={loggedIn}
+                  logOut={logOut}
+                  onSubmitEdit={editUser}
+                  errMessage={errMessage}
+                />
+              }
+            />
+          </Route>
+          <Route
+            path="/signin"
             element={
-              <Movies
-                movies={checkbox ? filterMovieByCheckBox : filterMoviesByText}
-                onSaveMovie={onSaveMovie}
-                onDeleteMovie={onDeleteMovie}
-                onCheckbox={onCheckbox}
-                openMenu={openMenu}
-                loggedIn={loggedIn}
-                toFindText={toSearchMovies}
-                isChecked={checkbox}
-                savedMovies={savedMovies}
-              />
+              loggedIn ? (
+                <Navigate to="/" />
+              ) : (
+                <Login toLogin={handleLogin} errMessage={errMessage} />
+              )
             }
           />
-          <Route
-            path="/saved-movies"
-            element={
-              <SavedMovies
-                showTooltip={showInfoTooltip}
-                setPopupMessage={setPopupMessage}
-                openMenu={openMenu}
-                loggedIn={loggedIn}
-                // onCheckbox={onCheckbox}
-                savedMovies={savedMovies}
-                onDeleteMovie={onDeleteMovie}
-              />
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <Profile
-                openMenu={openMenu}
-                loggedIn={loggedIn}
-                logOut={logOut}
-              />
-            }
-          />
-          <Route path="/signin" element={<Login toLogin={handleLogin} />} />
           <Route
             path="/signup"
-            element={<Register toRegister={handleRegister} />}
+            element={
+              loggedIn ? (
+                <Navigate to="/" />
+              ) : (
+                <Register
+                  handleRegister={handleRegister}
+                  errMessage={errMessage}
+                />
+              )
+            }
           />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Navigation menuOpened={menuOpened} onClose={openMenu} />
         <InfoTooltip
           isOpen={isInfoTooltipOpen}
-          onClose={onCloseInfoTooltip}
+          onClose={closeInfoTooltip}
           messagePopup={messagePopup}
         />
       </div>

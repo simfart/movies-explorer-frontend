@@ -23,8 +23,6 @@ function MoviesCard({ movie, onSaveMovie,onDeleteMovie, pass, isVis, savedMovies
       onDeleteMovie(movie)
     }
   
-  // function handleSaveBtnClick() { isSaved? onDeleteMovie(movie) : onSaveMovie(movie) }
-  
   return (
     <figure className={`moviecard ${isVis && 'moviecard_visible'}`}>
       <div className='moviecard__conteiner'>
