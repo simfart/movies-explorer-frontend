@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import useMoviesFilter from '../../hooks/useMoviesFilter';
 import { ERR_NO_MOVIE } from '../../utils/constants';
 
 import './Movies.css';
@@ -16,43 +15,36 @@ function Movies({
   savedMovies,
   showTooltip,
   setPopupMessage,
-  movies,
+  searchMovies
 }) {
   const [isShortFilm, setIsShortFilm] = useState(
     JSON.parse(localStorage.getItem('isShortFilm')),
   );
   const [search, setSearch] = useState(localStorage.getItem('search'));
-  const filteredMovies = useMoviesFilter(movies, search, isShortFilm);
-  
+  const [filteredMovies, setFilteredMovies] = useState(JSON.parse(localStorage.getItem('filteredMovies')) ?? []);
+
   const isShortFilmChange = useCallback(() => {
     setIsShortFilm((prev) => {
       const newState = !prev;
       localStorage.setItem('isShortFilm', newState);
+
       return newState;
     });
   }, []);
 
-  useEffect(() => {
-    if (filteredMovies.length && search ) {
-      localStorage.setItem('filteredMovies', JSON.stringify(filteredMovies));
-    } 
-  }, [filteredMovies, search]);
-
-  useEffect(() => {
-    if (!filteredMovies.length && !search) {
-      setPopupMessage(ERR_NO_MOVIE);
-      showTooltip();
-    }
-  }, [filteredMovies, search]);
-
-  const onSubmitSearch = useCallback((search) => {
+  const onSubmitSearch = useCallback(async (search) => {
     setSearch(search);
     localStorage.setItem('search', search);
-    if (!filteredMovies.length && !search) {
+
+    const filteredMovies = await searchMovies(search, isShortFilm);
+    localStorage.setItem('filteredMovies', JSON.stringify(filteredMovies));
+    setFilteredMovies(filteredMovies);
+
+    if (!filteredMovies.length) {
       setPopupMessage(ERR_NO_MOVIE);
       showTooltip();
     }
-  }, []);
+  }, [searchMovies, setPopupMessage, showTooltip, isShortFilm]);
 
   return (
     <>

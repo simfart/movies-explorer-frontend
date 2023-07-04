@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, useNavigate, Navigate, Outlet } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate} from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 
 import * as auth from '../../utils/Auth';
@@ -31,26 +31,40 @@ function App() {
   const [menuOpened, setmenuOpened] = useState(false);
   const [preloader, setPreloader] = useState(false);
 
-  const [movies, setMovies] = useState([]);
+  const filterMovies = useCallback((movies, text, isShort) => {
+    let result = movies;
 
-  useEffect(() => {
-    if (loggedIn) {
-      setPreloader(true);
-      moviesApi
-        .getMovies()
-        .then((movies) => {
-          setMovies(movies);
-        })
-        .catch((err) => {
-          setIsInfoTooltipOpen(true);
-          setMessagePopup(ERR_SEARCH);
-          console.log(err);
-        })
-        .finally(() => {
-          setPreloader(false);
-        });
+    if (text) {
+      result = result.filter((movie) =>
+        movie.nameRU.toLowerCase().includes(text),
+      );
     }
-  }, [loggedIn]);
+
+    if (isShort) {
+      result = result.filter((movie) => movie.duration <= 40);
+    }
+
+    return result;
+  }, []);
+
+  const searchMovies = useCallback(async (search, isShortFilm) => {
+    try {
+      setPreloader(true);
+
+      const movies = await moviesApi.getMovies();
+
+      const filteredMovies = filterMovies(movies, search, isShortFilm);
+
+      return filteredMovies;
+    } catch (error) {
+      setIsInfoTooltipOpen(true);
+      setMessagePopup(ERR_SEARCH);
+
+      return [];
+    } finally {
+      setPreloader(false);
+    }
+  }, [filterMovies]);
 
   const [savedMovies, setSavedMovies] = useState([]);
   const [messagePopup, setMessagePopup] = useState('');
@@ -86,14 +100,13 @@ function App() {
           setPreloader(false);
         });
     }
-  }, [loggedIn, setLoggedIn, setPopupMessage, showInfoTooltip]);
+  }, [loggedIn]);
 
   // Login
   const handleLogin = useCallback(
     async (values) => {
       try {
         const { token } = await auth.authorize(values.email, values.password);
-        console.log( token)
         if (!token) {
           throw new Error('Ошибка аутентификации');
         } else {
@@ -113,7 +126,7 @@ function App() {
   const handleRegister = useCallback(
     async (values) => {
       try {
-        await auth.register(values)
+        await auth.register(values);
         handleLogin({
           email: values.email,
           password: values.password,
@@ -129,7 +142,7 @@ function App() {
   // Log out
   const logOut = useCallback(async () => {
     try {
-      await mainApi.logout()
+      await mainApi.logout();
       navigate('/', { replace: true });
       setLoggedIn(false);
       localStorage.clear();
@@ -146,7 +159,7 @@ function App() {
   const checkToken = useCallback(async () => {
     setPreloader(true);
     try {
-      const res = await auth.checkToken()
+      const res = await auth.checkToken();
       if (res) {
         setLoggedIn(true);
       }
@@ -159,7 +172,6 @@ function App() {
     }
   }, []);
 
-
   useEffect(() => {
     checkToken();
   }, [checkToken]);
@@ -168,7 +180,7 @@ function App() {
   const editUser = useCallback(async (values) => {
     setPreloader(true);
     try {
-      const res = await mainApi.editlUserInfo(values)
+      const res = await mainApi.editlUserInfo(values);
       setCurrentUser(res.data);
       setErrMessage('');
     } catch (err) {
@@ -177,44 +189,46 @@ function App() {
     } finally {
       setPreloader(false);
     }
-  }, [])
+  }, []);
 
   // burger menu
   const openMenu = useCallback(() => {
     setmenuOpened(!menuOpened);
   }, [menuOpened]);
 
-  const onSaveMovie = useCallback(async (movie) => {
-    try {
-      const savedMovie = await mainApi.saveMovie(movie)
-      setSavedMovies([savedMovie, ...savedMovies]);
-    } catch (err) {
-      console.log(err);
-    }
-  }, [savedMovies])
+  const onSaveMovie = useCallback(
+    async (movie) => {
+      try {
+        const savedMovie = await mainApi.saveMovie(movie);
+        setSavedMovies([savedMovie, ...savedMovies]);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [savedMovies],
+  );
 
-
-  const onDeleteMovie = useCallback(async (movie) => {
-
-    try {
-      const selectedMovie = savedMovies.find(
-        (i) => i.movieId === (movie.id || movie.movieId),
-      );
-      await mainApi.deleteMovie(selectedMovie._id)
-      const filtered = savedMovies.filter(
-        (newCard) => newCard.movieId !== (movie.id || movie.movieId),
-      );
-      setSavedMovies(filtered);
-
-    } catch (err) {
-      console.log(err);
-    }
-  },[savedMovies])
+  const onDeleteMovie = useCallback(
+    async (movie) => {
+      try {
+        const selectedMovie = savedMovies.find(
+          (i) => i.movieId === (movie.id || movie.movieId),
+        );
+        await mainApi.deleteMovie(selectedMovie._id);
+        const filtered = savedMovies.filter(
+          (newCard) => newCard.movieId !== (movie.id || movie.movieId),
+        );
+        setSavedMovies(filtered);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [savedMovies],
+  );
 
   if (preloader) {
     return <Preloader />;
   }
-
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -224,7 +238,14 @@ function App() {
             path="/"
             element={<Main loggedIn={loggedIn} openMenu={openMenu} />}
           />
-          <Route element={<ProtectedRoute isloggedIn={loggedIn} showInfoTooltip={showInfoTooltip} />}>
+          <Route
+            element={
+              <ProtectedRoute
+                isloggedIn={loggedIn}
+                showInfoTooltip={showInfoTooltip}
+              />
+            }
+          >
             <Route
               path="/movies"
               element={
@@ -236,7 +257,8 @@ function App() {
                   savedMovies={savedMovies}
                   showTooltip={showInfoTooltip}
                   setPopupMessage={setPopupMessage}
-                  movies={movies}
+             
+                  searchMovies={searchMovies}
                 />
               }
             />

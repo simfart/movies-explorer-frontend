@@ -25,15 +25,15 @@ function SavedMovies({
     setIsShortFilm((prev) => !prev);
   }, []);
 
-  useEffect(() => {
-    if (!filteredMovies.length && !search) {
+  useEffect(()=>{
+    if (!filteredMovies.length && search) {
       setPopupMessage(ERR_NO_MOVIE);
       showTooltip();
     }
-  }, [filteredMovies, search, setPopupMessage, showTooltip]);
+  },[filteredMovies, search])
 
-  const onSubmitSearch = useCallback((search) => {
-    setSearch(search);
+  const onSubmitSearch = useCallback((search) => {   
+    setSearch(search);   
   }, []);
 
   return (

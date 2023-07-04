@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import useScreenWidth from '../../hooks/useScreenWidth';
-import { breakpointMiddle, breakpointSmall } from '../../utils/constants';
+import { BREAK_POINT_MIDDLE, BREAK_POINT_SMALL } from '../../utils/constants';
 
 function MoviesCardList({ movies, onSaveMovie, onDeleteMovie, pass, savedMovies}) {
   const [numAddMovies, setNumAddMovies] = useState()
@@ -12,10 +12,10 @@ function MoviesCardList({ movies, onSaveMovie, onDeleteMovie, pass, savedMovies}
   const widthSize = useScreenWidth()
 
   useEffect(() => {
-    if (widthSize >= breakpointMiddle) {
+    if (widthSize >= BREAK_POINT_MIDDLE) {
       setNumVisMovies(12)
       setNumAddMovies(3)
-    } else if (widthSize >= breakpointSmall) {
+    } else if (widthSize >= BREAK_POINT_SMALL) {
       setNumVisMovies(8)
       setNumAddMovies(2)
     } else {

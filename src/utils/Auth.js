@@ -29,9 +29,6 @@ function request(url, method, body, token) {
   return fetch(`${BASE_URL}${url}`, config).then(getResponseData);
 }
 
-
-// export const BASE_URL = "https://api.artmovies.nomoredomains.rocks" 
-
 export const register = (data) => {
   return request("/signup", "POST", {
     name: data.name,

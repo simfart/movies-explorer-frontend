@@ -25,7 +25,7 @@ class MainApi {
   }
 
   saveMovie(data) {
-     return this._request(`${this._baseUrl}/movies/`, {
+    return this._request(`${this._baseUrl}/movies/`, {
       method: "POST",
       credentials: "include",
       headers: this._headers,
@@ -40,7 +40,7 @@ class MainApi {
         nameRU: data.nameRU,
         nameEN: data.nameEN,
         thumbnail: `https://api.nomoreparties.co${data.image.formats.thumbnail.url}`,
-        movieId: data.id,        
+        movieId: data.id,
       }),
     });
   }
@@ -72,12 +72,12 @@ class MainApi {
     });
   }
 
-  logout(){
+  logout() {
     return this._request(`${this._baseUrl}/signout/`, {
       method: "GET",
       headers: this._headers,
       credentials: "include",
-        });
+    });
   }
 }
 
