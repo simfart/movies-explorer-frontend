@@ -59,7 +59,7 @@ function Profile({ logOut, onSubmitEdit, errMessage, loggedIn, openMenu }) {
               required
             />
           </div>
-          <div className='profile__message'>{errors.name || ''}</div>
+          <div className='message'>{errors.name || ''}</div>
           <div className="profile__line" />
           <div className="profile__field">
             <label className="text-field-label" htmlFor="email">
@@ -76,9 +76,9 @@ function Profile({ logOut, onSubmitEdit, errMessage, loggedIn, openMenu }) {
               required
             />
           </div>
-          <div className='profile__message'>{errors.email || ''}</div>
+          <div className='message'>{errors.email || ''}</div>
         </fieldset>
-        <div className='profile__message'>{errMessage}</div>
+        <div className='message'>{errMessage}</div>
         <button
           className={`btn profile__btn ${isValid ? '' : 'btn_invalid'}`}
           type='submit'
