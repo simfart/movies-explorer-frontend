@@ -41,8 +41,6 @@ function Form({
     setIsValid(true);
   }, [setValues, setErrors, setIsValid]);
 
-  console.log(isValid)
-
   return (
     <div className='form'>
       <Link to='/' className='btn form__logo'>
