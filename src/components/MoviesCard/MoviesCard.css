@@ -93,14 +93,14 @@
   line-height: 21px;
   color: #ffffff;
   border: none;
-  opacity: 0;
-  transition: opacity 0.5s;
+  /* opacity: 0;
+  transition: opacity 0.5s; */
 }
 
-.moviecard__conteiner:hover .moviecard__btn{
+/* .moviecard__conteiner:hover .moviecard__btn{
   opacity: 1;
   transition: opacity 0.5s;
-}
+} */
 
 
 @media screen and (max-width: 625px) {

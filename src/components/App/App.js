@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, useNavigate, Navigate} from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 
 import * as auth from '../../utils/Auth';
@@ -18,7 +18,7 @@ import Preloader from '../Movies/Preloader/Preloader';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
 import ProtectedRoute from '../../utils/ProtectedRoute';
 
-import { ERR_SEARCH } from '../../utils/constants';
+import { ERR_SEARCH, SUCCESS_MESSAGE } from '../../utils/constants';
 
 import './App.css';
 
@@ -183,11 +183,13 @@ function App() {
       const res = await mainApi.editlUserInfo(values);
       setCurrentUser(res.data);
       setErrMessage('');
+      showInfoTooltip();
+      setPopupMessage(SUCCESS_MESSAGE);
     } catch (err) {
       console.log(err);
       setErrMessage(err.message);
     } finally {
-      setPreloader(false);
+      setPreloader(false);      
     }
   }, []);
 
@@ -257,7 +259,7 @@ function App() {
                   savedMovies={savedMovies}
                   showTooltip={showInfoTooltip}
                   setPopupMessage={setPopupMessage}
-             
+
                   searchMovies={searchMovies}
                 />
               }

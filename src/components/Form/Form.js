@@ -41,6 +41,8 @@ function Form({
     setIsValid(true);
   }, [setValues, setErrors, setIsValid]);
 
+  console.log(isValid)
+
   return (
     <div className='form'>
       <Link to='/' className='btn form__logo'>
@@ -78,6 +80,7 @@ function Form({
             className={`form-field__input ${errors?.email && 'form-field__input_invalid'
               }`}
             type='email'
+            pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
             name='email'
             id='email'
             onChange={handleChange}

@@ -26,6 +26,13 @@ function Profile({ logOut, onSubmitEdit, errMessage, loggedIn, openMenu }) {
     setIsValid(true);
   }, [currentUser, setValues, setErrors, setIsValid]);
 
+
+  React.useEffect(() => {
+  if( values.name === currentUser.name & values.email === currentUser.email){
+    setIsValid(false);
+  }
+  }, [currentUser.email, currentUser.name, setIsValid, values.email, values.name]);
+
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
     onSubmitEdit({
@@ -34,11 +41,9 @@ function Profile({ logOut, onSubmitEdit, errMessage, loggedIn, openMenu }) {
     });
   }, [onSubmitEdit, values.email, values.name])
 
-
   return (
     <>
       <Header loggedIn={loggedIn} openMenu={openMenu} />
-
       <form className="profile" onSubmit={handleSubmit} noValidate>
         <h2 className="profile__title ">{`Привет, ${values.name} !`}</h2>
         <fieldset className="profile__info">
@@ -69,6 +74,7 @@ function Profile({ logOut, onSubmitEdit, errMessage, loggedIn, openMenu }) {
               className={`profile__field-input ${errors?.email && 'profile__field-input_invalid'
                 }`}
               type='email'
+              pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
               name='email'
               id='email'
               onChange={handleChange}

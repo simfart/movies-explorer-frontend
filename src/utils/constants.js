@@ -4,4 +4,4 @@ export const ERR_SEARCH = 'Во время запроса произошла о�
 export const BREAK_POINT_MIDDLE = 1024
 export const BREAK_POINT_SMALL = 625
 export const BASE_URL = 'https://api.artmovies.nomoredomains.rocks'
-
+export const SUCCESS_MESSAGE = 'Сохранено'

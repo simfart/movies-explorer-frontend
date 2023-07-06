@@ -48,7 +48,7 @@ function MoviesCardList({ movies, onSaveMovie, onDeleteMovie, pass, savedMovies}
           )
           )}
       </div>
-      {pass==="Movies"? movies.length>=numVisMovies && (<button className='movies__btn btn' type="button" onClick={showMore}>Ещё</button>): ''}
+      {pass==="Movies"? movies.length>numVisMovies && (<button className='movies__btn btn' type="button" onClick={showMore}>Ещё</button>): ''}
       
     </section>
   );
