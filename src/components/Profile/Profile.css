@@ -1,0 +1,142 @@
+.profile {
+  margin: 74px auto 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+   position: relative;
+}
+
+@media screen and (max-width: 1024px) {
+  .profile {
+    margin: 232px auto 269px;
+  }
+}
+
+@media screen and (max-width: 625px) {
+  .profile {
+    margin: 67px auto 40px;
+  }
+}
+
+
+@media screen and (max-width: 1024px) {
+  .profile {
+    margin-bottom: 96px;
+  }
+}
+
+@media screen and (max-width: 625px) {
+  .profile {
+    margin-bottom: 80px;
+  }
+}
+
+.profile__title {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  margin: 0 0 124px;
+  
+}
+
+@media screen and (max-width: 1024px) {
+  .profile__title {
+    margin-bottom: 98px;
+  }
+}
+
+@media screen and (max-width: 625px) {
+  .profile__title {
+    margin-bottom: 82px;
+  }
+}
+
+.profile__field-message {
+  display: none;
+}
+
+.profile__info {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  padding: 0;
+  margin: 0 0 220px;
+  width: 410px;
+}
+
+@media screen and (max-width: 1024px) {
+  .profile__info {
+    margin-bottom: 210px;
+  }
+}
+
+@media screen and (max-width: 625px) {
+  .profile__info {
+    margin-bottom: 379px;
+    width: 260px;
+  }
+}
+
+.profile__field {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  line-height: 13px;
+}
+.profile__field-label {
+  font-weight: 500;
+}
+
+.profile__field-input {
+  padding: 0;
+  margin: 0;
+  border: none;
+  color: #ffffff;
+  background-color: #202020;
+  background-clip: padding-box;
+  text-align: end;
+  border: none;
+  outline: none
+}
+
+.profile__field-input:focus{
+  border: 1px solid #424242;
+}
+
+.profile__field-input_invalid{
+  color: #ee3465;
+}
+
+.profile__line {
+  width: 100%;
+  border-bottom: 1px solid #424242;
+  margin: 16px 0 18px;
+}
+
+.profile__btn {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: #202020;
+  border: none;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  padding: 0;
+}
+
+.profile__btn:last-of-type {
+  font-weight: 500;
+  color: #ee3465;
+  margin-top: 16px;
+}
+
+@media screen and (max-width: 625px) {
+  .profile__btn {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

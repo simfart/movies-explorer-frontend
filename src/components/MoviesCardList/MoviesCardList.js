@@ -1,0 +1,57 @@
+import React, { useEffect, useState } from 'react';
+import './MoviesCardList.css';
+import MoviesCard from '../MoviesCard/MoviesCard';
+import useScreenWidth from '../../hooks/useScreenWidth';
+import { BREAK_POINT_MIDDLE, BREAK_POINT_SMALL } from '../../utils/constants';
+
+function MoviesCardList({ movies, onSaveMovie, onDeleteMovie, pass, savedMovies}) {
+  const [numAddMovies, setNumAddMovies] = useState()
+  const [numVisMovies, setNumVisMovies] = useState()
+  const [visMovies, setVisMovies] = useState([])
+
+  const widthSize = useScreenWidth()
+
+  useEffect(() => {
+    if (widthSize >= BREAK_POINT_MIDDLE) {
+      setNumVisMovies(12)
+      setNumAddMovies(3)
+    } else if (widthSize >= BREAK_POINT_SMALL) {
+      setNumVisMovies(8)
+      setNumAddMovies(2)
+    } else {
+      setNumVisMovies(5)
+      setNumAddMovies(2)
+    }
+  }, [widthSize])
+
+  function showMore() {
+    setNumVisMovies(numVisMovies+numAddMovies)
+  }
+
+  useEffect(() => {
+    setVisMovies(movies.slice(0, numVisMovies))
+  }, [movies, numVisMovies])
+
+  return (
+    <section>
+      <div className="cardlist">
+        {
+          visMovies.map((movieItem) => (
+            <MoviesCard
+              movie={movieItem}
+              savedMovies={savedMovies}
+              pass={pass}
+              onSaveMovie={onSaveMovie}
+              onDeleteMovie={onDeleteMovie}
+              key={movieItem.id||movieItem._id}
+            />
+          )
+          )}
+      </div>
+      {pass==="Movies"? movies.length>numVisMovies && (<button className='movies__btn btn' type="button" onClick={showMore}>Ещё</button>): ''}
+      
+    </section>
+  );
+}
+
+export default MoviesCardList;
